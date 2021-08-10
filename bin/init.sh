@@ -10,11 +10,11 @@
 #   - Self-destruct
 
 read -p "Port number for new app: " port
-read -p "Product name for new app (to replace rpe product references): " product
-read -p "Component name for new app (to replace rpe component references) : " component
+read -p "Product name for new app (to replace lau product references): " product
+read -p "Component name for new app (to replace lau component references) : " component
 
-declare -a files_with_port=(Dockerfile README.md src/main/server.ts docker-compose.yml charts/rpe-expressjs-template/values.yaml)
-declare -a files_with_product=(package.json Jenkinsfile_CNP.disabled Jenkinsfile_nightly docker-compose.yml src/main/modules/properties-volume/index.ts src/main/modules/appinsights/index.ts charts/rpe-expressjs-template/Chart.yaml charts/rpe-expressjs-template/values.yaml Dockerfile README.md sonar-project.properties)
+declare -a files_with_port=(Dockerfile README.md src/main/server.ts docker-compose.yml charts/lau-case-frontend/values.yaml)
+declare -a files_with_product=(package.json Jenkinsfile_CNP.disabled Jenkinsfile_nightly docker-compose.yml src/main/modules/properties-volume/index.ts src/main/modules/appinsights/index.ts charts/lau-case-frontend/Chart.yaml charts/lau-case-frontend/values.yaml Dockerfile README.md sonar-project.properties)
 
 # Replace port number
 for i in ${files_with_port[@]}
@@ -25,12 +25,12 @@ done
 # Replace spring-boot-template slug
 for i in ${files_with_product[@]}
 do
-  perl -i -pe "s/rpe/$product/g" ${i}
-  perl -i -pe "s/expressjs-template/$component/g" ${i}
+  perl -i -pe "s/lau/$product/g" ${i}
+  perl -i -pe "s/case-frontend/$component/g" ${i}
 done
 
 # Rename directory to provided package name
-git mv charts/rpe-expressjs-template/ charts/${product}-${component}
+git mv charts/lau-case-frontend/ charts/${product}-${component}
 
 # Rename CNP file
 git mv Jenkinsfile_CNP.disabled Jenkinsfile_CNP
