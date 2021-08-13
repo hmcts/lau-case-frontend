@@ -1,5 +1,5 @@
 nodejs:
-  applicationPort: 3100
+  applicationPort: 4000
   aadIdentityName: lau
   ingressHost: lau-case-frontend.{{ .Values.global.environment }}.platform.hmcts.net
   image: 'hmctspublic.azurecr.io/lau/case-frontend:latest'
