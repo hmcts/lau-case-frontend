@@ -2,28 +2,8 @@
 
 ## Purpose
 
-The purpose of this template is to speed up the creation of new [Express](http://expressjs.com/) frontend
-applications within HMCTS and help keep the same development standards across multiple teams.
-If you need to create a new application, you can simply use this one as a starting point and build on top of it.
-
-## What's inside
-
-The template is a working application with a minimal setup. It contains:
-  * application skeleton
-  * common dependencies
-  * Docker setup
-  * static analysis set up
-  * integration with Travis CI
-  * HTTPS set up for development environment
-  * CSRF prevention set up
-  * Header-based security provided by [Helmet](https://helmetjs.github.io/)
-  * basic health endpoint
-  * pa11y set up for accessibility testing
-  * MIT license and contribution information
-
-## Setup
-
-Located in `./bin/init.sh`. Simply run and follow the explanation how to execute it.
+This is the frontend for the Log and Audit Case service.
+This service will allow an investigator to see a report detailing all case interactions for a given user for up to 2 years.
 
 ## Getting Started
 
@@ -31,7 +11,7 @@ Located in `./bin/init.sh`. Simply run and follow the explanation how to execute
 
 Running the application requires the following tools to be installed in your environment:
 
-  * [Node.js](https://nodejs.org/) v12.0.0 or later
+  * [Node.js](https://nodejs.org/) v14.16.0 or later
   * [yarn](https://yarnpkg.com/)
   * [Docker](https://www.docker.com)
 
