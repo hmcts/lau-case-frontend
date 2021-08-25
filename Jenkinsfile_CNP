@@ -5,19 +5,16 @@
 def type = "nodejs"
 def product = "lau"
 def component = "case-frontend"
-def branchesToSync = ['demo']
+def branchesToSync = ['demo', 'perftest', 'ithc']
 
 def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
 
 withPipeline(type, product, component) {
+  disableLegacyDeployment()
+  syncBranchesWithMaster(branchesToSync)
 
   after('build') {
     yarnBuilder.yarn('build')
   }
-
-  enableAksStagingDeployment()
-  disableLegacyDeployment()
-
-  syncBranchesWithMaster(branchesToSync)
 
 }
