@@ -9,10 +9,11 @@ def component = "case-frontend"
 def yarnBuilder = new uk.gov.hmcts.contino.YarnBuilder(this)
 
 withPipeline(type, product, component) {
+  enableAksStagingDeployment()
   disableLegacyDeployment()
 
   after('build') {
     yarnBuilder.yarn('build')
   }
-  
+
 }
