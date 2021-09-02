@@ -1,4 +1,7 @@
 {
+  "ts-node": {
+    "files": true
+  },
   "compilerOptions": {
     "outDir": "./dist/",
     "module": "commonjs",
@@ -25,7 +28,9 @@
       ]
     },
     "typeRoots": [
-      "./node_modules/@types"
-    ]
+      "./node_modules/@types",
+      "./src/test"
+    ],
+    "types": ["jest","codeceptjs"]
   }
 }
