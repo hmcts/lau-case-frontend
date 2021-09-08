@@ -12,7 +12,7 @@ nodejs:
     USE_REDIS: true
     REDIS_USE_TLS: true
     REDIS_PORT: 6380
-    REDIS_HOST: lau-frontend-case-redis-cache-{{ .Values.global.environment }}.redis.cache.windows.net
+    REDIS_HOST: lau-case-frontend-redis-cache-{{ .Values.global.environment }}.redis.cache.windows.net
 
 redis:
   cluster:
