@@ -1,9 +1,9 @@
-import { Application } from 'express';
+import {Application, Request, Response} from 'express';
 
-export default function(app: Application): void {
+function homeHandler(req: Request, res: Response) {
+  res.render('home/template');
+}
 
-  app.get('/', (req, res) => {
-    res.render('home/template');
-  });
-
+export default function (app: Application): void {
+  app.get('/', homeHandler);
 }

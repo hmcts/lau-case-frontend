@@ -1,10 +1,10 @@
-import { Application } from 'express';
-import { content } from '../views/cookies/content';
+import {Application, Request, Response} from 'express';
+import {content} from '../views/cookies/content';
 
-export default function(app: Application): void {
+function cookiesHandler(req: Request, res: Response) {
+  res.render('cookies/template', content);
+}
 
-  app.get('/cookies', (req, res) => {
-    res.render('cookies/template', content);
-  });
-
+export default function (app: Application): void {
+  app.get('/cookies', cookiesHandler);
 }
