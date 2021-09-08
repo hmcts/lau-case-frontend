@@ -26,3 +26,4 @@ public/
 functional-output/
 smoke-output/
 coverage/
+infrastructure/.terraform/modules/**

@@ -25,12 +25,12 @@ export class SessionStorage {
           maxAge: cookieMaxAge,
         },
         rolling: true, // Renew the cookie for another 20 minutes on each request
-        store: SessionStorage.getStore(app),
+        store: this.getStore(app),
       }),
     );
   }
 
-  private static getStore(app: Application) {
+  private getStore(app: Application) {
     const redisEnabled = config.get('redis.enabled');
     const redisHost = config.get('redis.host');
     if (redisEnabled) {

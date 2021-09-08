@@ -4,12 +4,10 @@ import { Application } from 'express';
 import { get, set } from 'lodash';
 
 export class PropertiesVolume {
-
   enableFor(server: Application): void {
     if (server.locals.ENV !== 'development') {
       propertiesVolume.addTo(config);
-
-      this.setSecret('secrets.lau.AppInsightsInstrumentationKey', 'appInsights.instrumentationKey');
+      this.setSecret('secrets.lau.case-frontend-redis-access-key', 'redis.password');
     }
   }
 
