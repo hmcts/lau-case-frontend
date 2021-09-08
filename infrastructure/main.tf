@@ -27,7 +27,7 @@ data "azurerm_key_vault" "key_vault" {
 }
 
 resource "azurerm_key_vault_secret" "redis_access_key" {
-  name         = "redis-access-key"
+  name         = "${var.component}-redis-access-key"
   value        = module.lau-case-frontend-session-storage.access_key
   key_vault_id = data.azurerm_key_vault.key_vault.id
 }
