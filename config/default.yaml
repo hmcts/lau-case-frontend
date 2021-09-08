@@ -1,6 +1,21 @@
 ---
+environment: 'prod'
 useCSRFProtection: true
 security:
   referrerPolicy: origin
 appInsights:
   instrumentationKey: false
+redis:
+  host: 'localhost'
+  port: 6379
+  password: 'dummy_password'
+  useTLS: 'false'
+  enabled: false
+  secret: 'OVERWRITE_THIS'
+  proxy: true
+  resave: false
+  saveUninitialized: false
+  cookie:
+    secure: false
+    httpOnly: true
+    sameSite: 'lax'

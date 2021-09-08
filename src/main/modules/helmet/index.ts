@@ -1,4 +1,4 @@
-import * as express from 'express';
+import { Express, RequestHandler } from 'express';
 import helmet = require('helmet');
 
 export interface HelmetConfig {
@@ -14,7 +14,7 @@ const self = "'self'";
 export class Helmet {
   constructor(public config: HelmetConfig) {}
 
-  public enableFor(app: express.Express): void {
+  public enableFor(app: Express): void {
     // include default helmet functions
     app.use(helmet());
 
@@ -22,7 +22,13 @@ export class Helmet {
     this.setReferrerPolicy(app, this.config.referrerPolicy);
   }
 
-  private setContentSecurityPolicy(app: express.Express): void {
+  private setContentSecurityPolicy(app: Express): void {
+    const scriptSrc = [self, googleAnalyticsDomain, "'sha256-+6WnXIl4mbFTCARd8N3COQmT3bJJmo32N8q8ZSQAIcU='"];
+
+    if (app.locals.ENV === 'development') {
+      scriptSrc.push("'unsafe-eval'");
+    }
+
     app.use(
       helmet.contentSecurityPolicy({
         directives: {
@@ -31,14 +37,14 @@ export class Helmet {
           fontSrc: [self, 'data:'],
           imgSrc: [self, googleAnalyticsDomain],
           objectSrc: [self],
-          scriptSrc: [self, googleAnalyticsDomain, "'sha256-+6WnXIl4mbFTCARd8N3COQmT3bJJmo32N8q8ZSQAIcU='"],
+          scriptSrc,
           styleSrc: [self],
         },
-      }),
+      }) as RequestHandler,
     );
   }
 
-  private setReferrerPolicy(app: express.Express, policy: string): void {
+  private setReferrerPolicy(app: Express, policy: string): void {
     if (!policy) {
       throw new Error('Referrer policy configuration is required');
     }
