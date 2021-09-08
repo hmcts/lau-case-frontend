@@ -3,8 +3,8 @@ import * as cookieManager from '@hmcts/cookie-manager';
 import { qs } from './selectors';
 
 const cookieBanner = qs('#cm-cookie-banner');
-const cookieBannerDecision = cookieBanner?.querySelector('.govuk-cookie-banner__decision') as HTMLInputElement;
-const cookieBannerConfirmation = cookieBanner?.querySelector('.govuk-cookie-banner__confirmation') as HTMLInputElement;
+const cookieBannerDecision: HTMLInputElement = cookieBanner?.querySelector('.govuk-cookie-banner__decision');
+const cookieBannerConfirmation: HTMLInputElement = cookieBanner?.querySelector('.govuk-cookie-banner__confirmation');
 
 function cookieBannerAccept() {
   const confirmationMessage = cookieBannerConfirmation?.querySelector('p') as HTMLInputElement;
@@ -59,7 +59,7 @@ cookieManager.init({
   'cookie-banner-saved-callback': cookieBannerSaved,
   'cookie-banner-auto-hide': false,
   'cookie-manifest': [
-    //TODO add additional GA cookies
+    // Additional GA cookies will need to be added here
     {
       'category-name': 'essential',
       optional: false,

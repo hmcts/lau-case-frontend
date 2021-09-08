@@ -34,10 +34,13 @@ export class SessionStorage {
     const redisEnabled = config.get('redis.enabled');
     const redisHost = config.get('redis.host');
     if (redisEnabled) {
+      const password: string = config.get('redis.password');
+      const port: number = config.get('redis.port');
+
       const client = redis.createClient({
         host: redisHost as string,
-        password: config.get('redis.password') as string,
-        port: config.get('redis.port') as number,
+        password,
+        port,
         tls: true,
         connect_timeout: 15000,
       });
