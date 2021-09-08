@@ -17,10 +17,11 @@ nodejs:
         - case-frontend-redis-access-key
 
 redis:
-  cluster:
+  architecture: standalone
+  replica:
+    replicaCount: 0
+  auth:
     enabled: false
-    slaveCount: 0
-  usePassword: false
   master:
     persistence:
       enabled: false
