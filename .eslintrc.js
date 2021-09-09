@@ -37,6 +37,7 @@ module.exports = {
         'quotes': ['error', 'single', {'avoidEscape': true}],
         'comma-dangle': ['error', 'always-multiline'],
         '@typescript-eslint/no-var-requires': 0,
+        '@typescript-eslint/ban-ts-comment': 'off',
       },
     },
   ],
