@@ -3,6 +3,7 @@ provider "azurerm" {
 }
 
 locals {
+  aseName = "core-compute-${var.env}"
   vaultName = "${var.product}-${var.env}"
 }
 
