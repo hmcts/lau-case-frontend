@@ -7,11 +7,12 @@ export class PropertiesVolume {
   enableFor(server: Application): void {
     if (server.locals.ENV !== 'development') {
       propertiesVolume.addTo(config);
-      this.setSecret('secrets.lau.case-frontend-redis-access-key', 'redis.password');
+      PropertiesVolume.setSecret('secrets.lau.AppInsightsInstrumentationKey', 'appInsights.instrumentationKey');
+      PropertiesVolume.setSecret('secrets.lau.case-frontend-redis-access-key', 'redis.password');
     }
   }
 
-  private setSecret(fromPath: string, toPath: string): void {
+  private static setSecret(fromPath: string, toPath: string): void {
     if (config.has(fromPath)) {
       set(config, toPath, get(config, fromPath));
     }

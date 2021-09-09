@@ -3,7 +3,7 @@ import ConnectRedis from 'connect-redis';
 import cookieParser from 'cookie-parser';
 import { Application } from 'express';
 import session from 'express-session';
-import * as redis from 'redis';
+import Redis from 'ioredis';
 
 const RedisStore = ConnectRedis(session);
 const MemoryStore = require('express-session').MemoryStore;
@@ -25,27 +25,26 @@ export class SessionStorage {
           maxAge: cookieMaxAge,
         },
         rolling: true, // Renew the cookie for another 20 minutes on each request
-        store: this.getStore(app),
+        store: SessionStorage.getStore(),
       }),
     );
   }
 
-  private getStore(app: Application) {
+  static getStore(): ConnectRedis.RedisStore {
     const redisEnabled = config.get('redis.enabled');
-    const redisHost = config.get('redis.host');
     if (redisEnabled) {
+      const host: string = config.get('redis.host');
       const password: string = config.get('redis.password');
       const port: number = config.get('redis.port');
 
-      const client = redis.createClient({
-        host: redisHost as string,
-        password,
-        port,
+      const tlsOptions = {
+        password: password,
         tls: true,
-        connect_timeout: 15000,
-      });
+      };
 
-      app.locals.redisClient = client;
+      const redisOptions = config.get('redis.useTLS') ? tlsOptions : {};
+      const client = new Redis(port, host, redisOptions);
+
       return new RedisStore({ client });
     } else if (config.get('environment') === 'prod') {
       throw new Error('Redis disabled in production!');

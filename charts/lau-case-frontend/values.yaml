@@ -13,7 +13,7 @@ nodejs:
     lau:
       resourceGroup: lau
       secrets:
-      # - AppInsightsInstrumentationKey
+        - AppInsightsInstrumentationKey
         - case-frontend-redis-access-key
 
 redis:
