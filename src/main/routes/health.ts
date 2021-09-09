@@ -7,7 +7,7 @@ const logger = (require('@hmcts/nodejs-logging')).Logger.getLogger('healthcheck'
 const healthcheck = require('@hmcts/nodejs-healthcheck');
 
 const config = require('config');
-const sessionStore = SessionStorage.getStore();
+const sessionStore = new SessionStorage().getStore();
 
 const checks: MetadataObj = {};
 const readinessChecks: MetadataObj = {};
