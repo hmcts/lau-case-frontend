@@ -11,7 +11,7 @@ redis:
   host: 'localhost'
   port: 6379
   password: 'dummy_password'
-  useTLS: false
+  useTLS: 'false'
   enabled: false
   secret: 'OVERWRITE_THIS'
   proxy: true
