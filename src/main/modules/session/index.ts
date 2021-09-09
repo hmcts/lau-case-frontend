@@ -5,6 +5,8 @@ import { Application } from 'express';
 import session from 'express-session';
 import Redis from 'ioredis';
 
+const logger = (require('@hmcts/nodejs-logging')).Logger.getLogger('SessionStorage');
+
 export class SessionStorage {
   private RedisStore = ConnectRedis(session);
   private MemoryStore = require('express-session').MemoryStore;
@@ -43,6 +45,9 @@ export class SessionStorage {
       };
 
       const redisOptions = config.get('redis.useTLS') ? tlsOptions : {};
+
+      logger.debug(`Redis Connection: Host: ${host}, Port: ${port}, Options: ${redisOptions}`);
+
       const client = new Redis(port, host, redisOptions);
 
       return new this.RedisStore({ client });
