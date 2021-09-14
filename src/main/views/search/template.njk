@@ -74,24 +74,25 @@
 
       </div>
     </div>
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-one-half">
+        {# Add when functional: attributes: {form: "case-search-form"},  #}
+        {{ govukButton({
+          text: "Search",
+          type: "submit",
+          classes: "govuk-!-width-three-quarters govuk-!-margin-top-7",
+          preventDoubleClick: true,
+          value: "search"
+        }) }}
+      </div>
+
+      <div class="govuk-grid-column-one-half">
+        <p class="govuk-body govuk-body govuk-!-font-size-16">
+          <b>Note:</b> Please include time parameters in your search using the 'Time from' and 'Time to' fields, and enter at least one other parameter to obtain search results.
+        </p>
+        <p class="govuk-body govuk-body govuk-!-font-size-16">'Case Type ID' and 'Jurisdiction ID' are only available in Case Views results.</p>
+      </div>
+    </div>
   {% endcall %}
 </form>
-
-<div class="govuk-grid-row">
-  <div class="govuk-grid-column-one-half">
-    {# Add when functional: attributes: {form: "case-search-form"},  #}
-    {{ govukButton({
-      text: "Search",
-      classes: "govuk-!-width-three-quarters govuk-!-margin-top-7",
-      preventDoubleClick: true,
-      value: "search"
-    }) }}
-  </div>
-
-  <div class="govuk-grid-column-one-half">
-    <p class="govuk-body govuk-body govuk-!-font-size-16">
-      <b>Note:</b> Please include time parameters in your search using the 'Time from' and 'Time to' fields, and enter at least one other parameter to obtain search results.
-    </p>
-    <p class="govuk-body govuk-body govuk-!-font-size-16">'Case Type ID' and 'Jurisdiction ID' are only available in Case Views results.</p>
-  </div>
-</div>
