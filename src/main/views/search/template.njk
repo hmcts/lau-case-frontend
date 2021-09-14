@@ -1,1 +1,97 @@
-<h2 class="govuk-heading-l">Case Audit Search</h2>
+{% from "govuk/components/fieldset/macro.njk" import govukFieldset %}
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
+{% from "govuk/components/button/macro.njk" import govukButton %}
+
+<form id="case-search-form" class="form" method="post">
+  {% call govukFieldset({
+    legend: {
+      text: "Case Audit Search",
+      classes: "govuk-fieldset__legend--l",
+      isPageHeading: true
+    }
+  }) %}
+
+    <div class="govuk-grid-row">
+      <div class="govuk-grid-column-one-half">
+
+        {{ govukInput({
+          label: {
+            text: "User ID"
+          },
+          classes: "govuk-!-width-three-quarters",
+          id: "userId",
+          name: "userId"
+        }) }}
+
+        {{ govukInput({
+          label: {
+            text: "Case ID"
+          },
+          classes: "govuk-!-width-three-quarters",
+          id: "caseId",
+          name: "caseId"
+        }) }}
+
+        {{ govukInput({
+          label: {
+            text: "Time from"
+          },
+          classes: "govuk-!-width-three-quarters",
+          id: "timeFrom",
+          name: "timeFrom"
+        }) }}
+
+      </div>
+      <div class="govuk-grid-column-one-half">
+
+        {{ govukInput({
+          label: {
+            text: "Case Type ID"
+          },
+          classes: "govuk-!-width-three-quarters",
+          id: "caseTypeId",
+          name: "caseTypeId"
+        }) }}
+
+        {{ govukInput({
+          label: {
+            text: "Jurisdiction ID"
+          },
+          classes: "govuk-!-width-three-quarters",
+          id: "jurisdictionId",
+          name: "jurisdictionId"
+        }) }}
+
+        {{ govukInput({
+          label: {
+            text: "Time to"
+          },
+          classes: "govuk-!-width-three-quarters",
+          id: "timeTo",
+          name: "timeTo"
+        }) }}
+
+      </div>
+    </div>
+  {% endcall %}
+</form>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-one-half">
+    {# Add when functional: attributes: {form: "case-search-form"},  #}
+    {{ govukButton({
+      text: "Search",
+      classes: "govuk-!-width-three-quarters govuk-!-margin-top-7",
+      preventDoubleClick: true,
+      value: "search"
+    }) }}
+  </div>
+
+  <div class="govuk-grid-column-one-half">
+    <p class="govuk-body govuk-body govuk-!-font-size-16">
+      <b>Note:</b> Please include time parameters in your search using the 'Time from' and 'Time to' fields, and enter at least one other parameter to obtain search results.
+    </p>
+    <p class="govuk-body govuk-body govuk-!-font-size-16">'Case Type ID' and 'Jurisdiction ID' are only available in Case Views results.</p>
+  </div>
+</div>
