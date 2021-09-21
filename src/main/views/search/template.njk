@@ -3,7 +3,7 @@
 {% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
-<form id="case-search-form" class="form" method="post">
+<form id="case-search-form" class="form" method="post" action="/search">
   {% call govukFieldset({
     legend: {
       text: "Case Audit Search",
@@ -21,7 +21,8 @@
           },
           classes: "govuk-!-width-three-quarters",
           id: "userId",
-          name: "userId"
+          name: "userId",
+          value: form.userId
         }) }}
 
         {{ govukInput({
@@ -29,8 +30,9 @@
             text: "Case ID"
           },
           classes: "govuk-!-width-three-quarters",
-          id: "caseId",
-          name: "caseId"
+          id: "caseRef",
+          name: "caseRef",
+          value: form.caseRef
         }) }}
 
         {{ govukInput({
@@ -38,8 +40,9 @@
             text: "Time from"
           },
           classes: "govuk-!-width-three-quarters",
-          id: "timeFrom",
-          name: "timeFrom"
+          id: "startTimestamp",
+          name: "startTimestamp",
+          value: form.startTimestamp
         }) }}
 
       </div>
@@ -51,7 +54,8 @@
           },
           classes: "govuk-!-width-three-quarters",
           id: "caseTypeId",
-          name: "caseTypeId"
+          name: "caseTypeId",
+          value: form.caseTypeId
         }) }}
 
         {{ govukInput({
@@ -59,8 +63,9 @@
             text: "Jurisdiction ID"
           },
           classes: "govuk-!-width-three-quarters",
-          id: "jurisdictionId",
-          name: "jurisdictionId"
+          id: "caseJurisdictionId",
+          name: "caseJurisdictionId",
+          value: form.caseJurisdictionId
         }) }}
 
         {{ govukInput({
@@ -68,8 +73,9 @@
             text: "Time to"
           },
           classes: "govuk-!-width-three-quarters",
-          id: "timeTo",
-          name: "timeTo"
+          id: "endTimestamp",
+          name: "endTimestamp",
+          value: form.endTimestamp
         }) }}
 
       </div>
@@ -77,7 +83,6 @@
 
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-one-half">
-        {# Add when functional: attributes: {form: "case-search-form"},  #}
         {{ govukButton({
           text: "Search",
           type: "submit",
