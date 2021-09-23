@@ -3,6 +3,12 @@
 {% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
+{% set calendarIcon %}
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
+    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+  </svg>
+{% endset %}
+
 <form id="case-search-form" class="form" method="post" action="/search">
   {% call govukFieldset({
     legend: {
@@ -40,6 +46,10 @@
             text: "Time from"
           },
           classes: "govuk-!-width-three-quarters",
+          suffix: {
+            html: calendarIcon,
+            classes: "startTimestampSuffix"
+          },
           id: "startTimestamp",
           name: "startTimestamp",
           value: form.startTimestamp
@@ -73,11 +83,14 @@
             text: "Time to"
           },
           classes: "govuk-!-width-three-quarters",
+          suffix: {
+            html: calendarIcon,
+            classes: "endTimestampSuffix"
+          },
           id: "endTimestamp",
           name: "endTimestamp",
           value: form.endTimestamp
         }) }}
-
       </div>
     </div>
 
@@ -94,9 +107,11 @@
 
       <div class="govuk-grid-column-one-half">
         <p class="govuk-body govuk-body govuk-!-font-size-16">
-          <b>Note:</b> Please include time parameters in your search using the 'Time from' and 'Time to' fields, and enter at least one other parameter to obtain search results.
+          <b>Note:</b> Please include time parameters in your search using the 'Time from' and 'Time to' fields, and
+          enter at least one other parameter to obtain search results.
         </p>
-        <p class="govuk-body govuk-body govuk-!-font-size-16">'Case Type ID' and 'Jurisdiction ID' are only available in Case Views results.</p>
+        <p class="govuk-body govuk-body govuk-!-font-size-16">'Case Type ID' and 'Jurisdiction ID' are only available in
+          Case Views results.</p>
       </div>
     </div>
   {% endcall %}
