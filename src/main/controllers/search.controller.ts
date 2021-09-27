@@ -1,3 +1,4 @@
+import {LoggerInstance} from 'winston';
 const {Logger} = require('@hmcts/nodejs-logging');
 
 import autobind from 'autobind-decorator';
@@ -11,7 +12,7 @@ import {atLeastOneFieldIsFilled, fillPartialTimestamp, validDateInput} from '../
  */
 @autobind
 export class SearchController {
-  private logger = Logger.getLogger('SearchController');
+  private logger: LoggerInstance = Logger.getLogger('SearchController');
 
   private errors: FormError[] = [];
 
@@ -102,10 +103,11 @@ export class SearchController {
 
     if (this.getErrors().length === 0) {
       // To be sent to API GET
-      this.logger.log('API Request Parameters: ', req.body);
+      this.logger.info('API Request Parameters: ', req.body);
+      res.send(req.body); // To be removed when search is implemented
+    } else {
+      res.redirect('/');
     }
-
-    res.redirect('/');
   }
 
 }
