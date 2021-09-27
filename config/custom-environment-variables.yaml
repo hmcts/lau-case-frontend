@@ -7,3 +7,10 @@ redis:
   useTLS: REDIS_USE_TLS
   enabled: USE_REDIS
   secret: REDIS_SECRET
+services:
+  idam:
+    authorizationURL: IDAM_WEB_URL
+    tokenURL: IDAM_API_URL
+    clientID: IDAM_CLIENT_ID
+    clientSecret: IDAM_CLIENT_SECRET
+    callbackURL: OAUTH_CLIENT_REDIRECT
