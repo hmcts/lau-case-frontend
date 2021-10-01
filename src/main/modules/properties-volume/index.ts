@@ -12,7 +12,9 @@ export class PropertiesVolume {
       PropertiesVolume.setSecret('secrets.lau.case-frontend-redis-access-key', 'redis.password');
       PropertiesVolume.setSecret('secrets.lau.idam-client-secret', 'services.idam.clientSecret');
     } else {
-      PropertiesVolume.setLocalSecret('idam-client-secret', 'services.idam.clientSecret');
+      if (config.get('environment') !== 'dev') {
+        PropertiesVolume.setLocalSecret('idam-client-secret', 'services.idam.clientSecret');
+      }
     }
   }
 

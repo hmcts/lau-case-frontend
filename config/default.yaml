@@ -10,7 +10,7 @@ appInsights:
 redis:
   host: 'localhost'
   port: 6379
-  password: 'dummy_password'
+  password: 'password'
   useTLS: 'false'
   enabled: false
   secret: 'OVERWRITE_THIS'
@@ -23,8 +23,9 @@ redis:
     sameSite: 'lax'
 services:
   idam:
+    enabled: true
     authorizationURL: 'https://idam-web-public.aat.platform.hmcts.net/login'
     tokenURL: 'https://idam-api.aat.platform.hmcts.net/o/token'
     clientID: 'lau'
     clientSecret: 'SECRET'
-    callbackURL: 'http://localhost:3001/oauth2/callback'
+    callbackURL: 'https://localhost:4000/oauth2/callback'
