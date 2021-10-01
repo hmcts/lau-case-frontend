@@ -7,7 +7,7 @@ describe('Search Route', () => {
 
   it('Calls the Search Controller post method', async () => {
     const res = await request(app).post('/search');
-    expect(res.header['content-type']).toBe('application/json; charset=utf-8');
+    expect(res.header['content-type']).toBe('text/plain; charset=utf-8;');
     expect(res.statusCode).toBe(200);
   });
 });
