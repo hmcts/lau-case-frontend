@@ -1,14 +1,6 @@
 import {CaseSearchRequest} from '../models/CaseSearchRequest';
-import moment from 'moment';
-
-const DATE_REGEX = /^(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})$/gm;
-const partialDateRegex = {
-  Y: /^(\d{4})$/gm,
-  YM: /^(\d{4})-(\d{2})$/gm,
-  YMD: /^(\d{4})-(\d{2})-(\d{2})$/gm,
-  YMDH: /^(\d{4})-(\d{2})-(\d{2}) (\d{2})$/gm,
-  YMDHM: /^(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2})$/gm,
-};
+import moment, {Moment} from 'moment';
+import {isDateValid, partialDateRegex} from './Date';
 
 export const atLeastOneFieldIsFilled = (fields: Partial<CaseSearchRequest>): string => {
   if (!fields || (Object.keys(fields).length === 0) || !Object.values(fields).some(field => field !== '')) {
@@ -16,10 +8,27 @@ export const atLeastOneFieldIsFilled = (fields: Partial<CaseSearchRequest>): str
   }
 };
 
+export const isFilledIn = (field: string): string => {
+  if (!field || field === '') {
+    return 'required';
+  }
+};
+
 // Date should be of the format: 2020-18-03 12:03:04
 export const validDateInput = (date: string): string => {
-  if (date && (!date.match(DATE_REGEX) || !moment(date, 'yyyy-MM-dd HH:mm:ss').isValid())) {
+  if (date && !isDateValid(date)) {
     return 'invalid';
+  }
+};
+
+export const startDateBeforeEndDate = (fields: Partial<CaseSearchRequest>): string => {
+  if (fields.startTimestamp && fields.endTimestamp) {
+    const startDate: Moment = moment.utc(fields.startTimestamp, 'yyyy-MM-dd HH:mm:ss');
+    const endDate: Moment = moment.utc(fields.endTimestamp, 'yyyy-MM-dd HH:mm:ss');
+
+    if (startDate.isValid() && endDate.isValid() && !startDate.isBefore(endDate)) {
+      return 'startDateBeforeEndDate';
+    }
   }
 };
 

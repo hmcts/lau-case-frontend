@@ -1,4 +1,9 @@
-import {atLeastOneFieldIsFilled, fillPartialTimestamp, validDateInput} from '../../../main/util/validators';
+import {
+  atLeastOneFieldIsFilled,
+  fillPartialTimestamp, isFilledIn,
+  startDateBeforeEndDate,
+  validDateInput,
+} from '../../../main/util/validators';
 
 describe('Validator', () => {
 
@@ -37,6 +42,55 @@ describe('Validator', () => {
 
     it('doesn\'t return an error type if the date is valid', async () => {
       const errorType = validDateInput('2021-01-01 00:00:00');
+      expect(errorType).toBe(undefined);
+    });
+  });
+
+  describe('startDateBeforeEndDate', () => {
+    it('doesn\'t return an error type if the date fields are not filled', async () => {
+      let errorType = startDateBeforeEndDate({});
+      expect(errorType).toBe(undefined);
+      errorType = startDateBeforeEndDate({startTimestamp: ''});
+      expect(errorType).toBe(undefined);
+      errorType = startDateBeforeEndDate({endTimestamp: ''});
+      expect(errorType).toBe(undefined);
+    });
+
+    it('doesn\'t return an error type if the dates are invalid', async () => {
+      let errorType = startDateBeforeEndDate({startTimestamp: '2021-01-01T00:00:00', endTimestamp: '2021-01-01 00:00:00'});
+      expect(errorType).toBe(undefined);
+
+      errorType = startDateBeforeEndDate({startTimestamp: '2021-01-01 00:00:00', endTimestamp: '2021-01-01T00:00:00'});
+      expect(errorType).toBe(undefined);
+    });
+
+    it('returns error type if the end date is before the start date or the same', async () => {
+      let errorType = startDateBeforeEndDate({startTimestamp: '2021-01-01 00:00:01', endTimestamp: '2021-01-01 00:00:00'});
+      expect(errorType).toBe('startDateBeforeEndDate');
+
+      errorType = startDateBeforeEndDate({startTimestamp: '2021-01-01 00:00:00', endTimestamp: '2021-01-01 00:00:00'});
+      expect(errorType).toBe('startDateBeforeEndDate');
+    });
+
+    it('doesn\'t return an error type if the dates are valid', async () => {
+      const errorType = startDateBeforeEndDate({startTimestamp: '2021-01-01 00:00:00', endTimestamp: '2021-01-01 00:00:01'});
+      expect(errorType).toBe(undefined);
+    });
+  });
+
+  describe('isFilledIn', () => {
+    it('returns error type if the field is an empty string', async () => {
+      const errorType = isFilledIn('');
+      expect(errorType).toBe('required');
+    });
+
+    it('returns error type if the field is null', async () => {
+      const errorType = isFilledIn(null);
+      expect(errorType).toBe('required');
+    });
+
+    it('doesn\'t return an error type if the field is filled ', async () => {
+      const errorType = isFilledIn('filled');
       expect(errorType).toBe(undefined);
     });
   });

@@ -11,13 +11,15 @@ function homeHandler(req: AppRequest, res: Response) {
     errors: {
       caseSearchForm: {
         stringFieldRequired: 'Please enter at least one of the following fields: User ID, Case Type ID, Case ID or Jurisdiction ID.',
-        dateFieldRequired: 'Please enter at least one of the time fields.',
+        startDateBeforeEndDate: '\'Time from\' must be before \'Time to\'',
       },
       startTimestamp: {
-        invalid: 'Invalid start timestamp',
+        invalid: 'Invalid \'Time from\' timestamp.',
+        required: '\'Time from\' is required.',
       },
       endTimestamp: {
-        invalid: 'Invalid end timestamp',
+        invalid: 'Invalid \'Time to\' timestamp.',
+        required: '\'Time to\' is required.',
       },
     },
   });

@@ -5,7 +5,13 @@ import autobind from 'autobind-decorator';
 import {AppRequest, FormError} from '../models/appRequest';
 import {Response} from 'express';
 import {CaseSearchRequest} from '../models/CaseSearchRequest';
-import {atLeastOneFieldIsFilled, fillPartialTimestamp, validDateInput} from '../util/validators';
+import {
+  atLeastOneFieldIsFilled,
+  fillPartialTimestamp,
+  isFilledIn,
+  startDateBeforeEndDate,
+  validDateInput,
+} from '../util/validators';
 
 /**
  * Search Controller class to handle search tab functionality
@@ -57,6 +63,8 @@ export class SearchController {
    * @param form Search form to validate. Contains a partial of the search request object.
    */
   public validateSearchForm(form: Partial<CaseSearchRequest>): FormError[] {
+    this.resetErrors();
+
     // At least one of the string form inputs
     this.validate(
       'caseSearchForm',
@@ -70,21 +78,21 @@ export class SearchController {
       'stringFieldRequired',
     );
 
-    // At least one of the date form inputs
-    this.validate(
-      'caseSearchForm',
-      {startTimestamp: form.startTimestamp, endTimestamp: form.endTimestamp},
-      atLeastOneFieldIsFilled,
-      'dateFieldRequired',
-    );
-
-    // startTimestamp is correctly formatted
+    // startTimestamp is filled in and correctly formatted
     form.startTimestamp = fillPartialTimestamp(form.startTimestamp);
+    this.validate('startTimestamp', form.startTimestamp, isFilledIn);
     this.validate('startTimestamp', form.startTimestamp, validDateInput);
 
-    // endTimestamp is correctly formatted
+    // endTimestamp is filled in and correctly formatted
     form.endTimestamp = fillPartialTimestamp(form.endTimestamp);
+    this.validate('endTimestamp', form.endTimestamp, isFilledIn);
     this.validate('endTimestamp', form.endTimestamp, validDateInput);
+
+    // Start date is before end date
+    this.validate('caseSearchForm', {
+      startTimestamp: form.startTimestamp,
+      endTimestamp: form.endTimestamp,
+    }, startDateBeforeEndDate);
 
     return this.getErrors();
   }
@@ -97,8 +105,6 @@ export class SearchController {
    */
   public async post(req: AppRequest, res: Response): Promise<void> {
     req.session.formState = req.body;
-    this.resetErrors();
-
     req.session.errors = this.validateSearchForm(req.body);
 
     if (this.getErrors().length === 0) {
