@@ -73,7 +73,13 @@
   {{ govukHeader({
     homepageUrl: "/",
     serviceName: "Log and Audit",
-    serviceUrl: "/"
+    serviceUrl: "/",
+    navigation: [
+      {
+        href: "/logout" if isLoggedIn else "/login",
+        text: "Logout" if isLoggedIn else "Login"
+      }
+    ]
   }) }}
 {% endblock %}
 

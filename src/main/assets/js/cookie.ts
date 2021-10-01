@@ -63,7 +63,7 @@ cookieManager.init({
     {
       'category-name': 'essential',
       optional: false,
-      cookies: ['lau-cookie-preferences'],
+      cookies: ['lau-cookie-preferences', 'Idam.Session', 'seen_cookie_message'],
     },
     {
       'category-name': 'analytics',
