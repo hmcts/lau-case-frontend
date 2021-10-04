@@ -1,10 +1,19 @@
 const logger = (require('@hmcts/nodejs-logging')).Logger.getLogger('oidc');
 
-import {Application, NextFunction, Request, Response} from 'express';
+import {Application, NextFunction, Response} from 'express';
 import fetch, {Response as FetchResponse} from 'node-fetch';
 import config from 'config';
 import jwt_decode from 'jwt-decode';
+import {AppRequest} from '../../models/appRequest';
 import {HttpResponseError} from '../../util/HttpResponseError';
+
+interface IdTokenJwtPayload {
+  uid: string;
+  sub: string;
+  given_name: string;
+  family_name: string;
+  roles: string[];
+}
 
 /**
  * Adds the oidc middleware to add oauth authentication
@@ -18,11 +27,11 @@ export class OidcMiddleware {
     const clientSecret: string = config.get('services.idam.clientSecret');
     const redirectUri: string = config.get('services.idam.callbackURL');
 
-    server.get('/login', (req: Request, res) => {
+    server.get('/login', (req: AppRequest, res) => {
       res.redirect(loginUrl + '?client_id=' + clientId + '&response_type=code&redirect_uri=' + encodeURI(redirectUri));
     });
 
-    server.get('/oauth2/callback', async (req: Request, res: Response) => {
+    server.get('/oauth2/callback', async (req: AppRequest, res: Response) => {
 
       const params = new URLSearchParams({
         client_id: clientId,
@@ -61,18 +70,19 @@ export class OidcMiddleware {
       }
 
       const data = await response.json() as Record<string, unknown>;
+      const jwt: IdTokenJwtPayload = jwt_decode(data.id_token as string);
 
-      req.session.user = data;
-      req.session.user.jwt = jwt_decode(data.id_token as string);
+      req.session.user.accessToken = data.access_tokenn as string;
+      req.session.user.id = jwt.uid;
       req.session.save(() => res.redirect('/'));
     });
 
-    server.get('/logout', function(req: Request, res){
+    server.get('/logout', function(req: AppRequest, res){
       req.session.user = undefined;
       req.session.save(() => res.redirect('/'));
     });
 
-    server.use((req: Request, res: Response, next: NextFunction) => {
+    server.use((req: AppRequest, res: Response, next: NextFunction) => {
       if (req.session.user || !config.get('services.idam.enabled')) {
         res.locals.isLoggedIn = true;
 
@@ -92,10 +102,4 @@ export class OidcMiddleware {
     }
   }
 
-}
-
-declare module 'express-session' {
-  export interface SessionData {
-    user: Record<string, unknown>
-  }
 }
