@@ -3,7 +3,13 @@
 {% from "govuk/components/inset-text/macro.njk" import govukInsetText %}
 {% from "govuk/components/button/macro.njk" import govukButton %}
 
-<form id="case-search-form" class="form" method="post">
+{% set calendarIcon %}
+  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar" viewBox="0 0 16 16">
+    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+  </svg>
+{% endset %}
+
+<form id="case-search-form" class="form" method="post" action="/search">
   {% call govukFieldset({
     legend: {
       text: "Case Audit Search",
@@ -21,7 +27,8 @@
           },
           classes: "govuk-!-width-three-quarters",
           id: "userId",
-          name: "userId"
+          name: "userId",
+          value: form.userId
         }) }}
 
         {{ govukInput({
@@ -29,17 +36,23 @@
             text: "Case ID"
           },
           classes: "govuk-!-width-three-quarters",
-          id: "caseId",
-          name: "caseId"
+          id: "caseRef",
+          name: "caseRef",
+          value: form.caseRef
         }) }}
 
         {{ govukInput({
           label: {
-            text: "Time from"
+            text: "Time from (UTC)"
           },
           classes: "govuk-!-width-three-quarters",
-          id: "timeFrom",
-          name: "timeFrom"
+          suffix: {
+            html: calendarIcon,
+            classes: "startTimestampSuffix"
+          },
+          id: "startTimestamp",
+          name: "startTimestamp",
+          value: form.startTimestamp
         }) }}
 
       </div>
@@ -51,7 +64,8 @@
           },
           classes: "govuk-!-width-three-quarters",
           id: "caseTypeId",
-          name: "caseTypeId"
+          name: "caseTypeId",
+          value: form.caseTypeId
         }) }}
 
         {{ govukInput({
@@ -59,25 +73,29 @@
             text: "Jurisdiction ID"
           },
           classes: "govuk-!-width-three-quarters",
-          id: "jurisdictionId",
-          name: "jurisdictionId"
+          id: "caseJurisdictionId",
+          name: "caseJurisdictionId",
+          value: form.caseJurisdictionId
         }) }}
 
         {{ govukInput({
           label: {
-            text: "Time to"
+            text: "Time to (UTC)"
           },
           classes: "govuk-!-width-three-quarters",
-          id: "timeTo",
-          name: "timeTo"
+          suffix: {
+            html: calendarIcon,
+            classes: "endTimestampSuffix"
+          },
+          id: "endTimestamp",
+          name: "endTimestamp",
+          value: form.endTimestamp
         }) }}
-
       </div>
     </div>
 
     <div class="govuk-grid-row">
       <div class="govuk-grid-column-one-half">
-        {# Add when functional: attributes: {form: "case-search-form"},  #}
         {{ govukButton({
           text: "Search",
           type: "submit",
@@ -89,9 +107,11 @@
 
       <div class="govuk-grid-column-one-half">
         <p class="govuk-body govuk-body govuk-!-font-size-16">
-          <b>Note:</b> Please include time parameters in your search using the 'Time from' and 'Time to' fields, and enter at least one other parameter to obtain search results.
+          <b>Note:</b> Please include time parameters in your search using the 'Time from' and 'Time to' fields, and
+          enter at least one other parameter to obtain search results.
         </p>
-        <p class="govuk-body govuk-body govuk-!-font-size-16">'Case Type ID' and 'Jurisdiction ID' are only available in Case Views results.</p>
+        <p class="govuk-body govuk-body govuk-!-font-size-16">'Case Type ID' and 'Jurisdiction ID' are only available in
+          Case Views results.</p>
       </div>
     </div>
   {% endcall %}

@@ -1,7 +1,28 @@
-import {Application, Request, Response} from 'express';
+import {Application, Response} from 'express';
+import {AppRequest} from '../models/appRequest';
 
-function homeHandler(req: Request, res: Response) {
-  res.render('home/template');
+function homeHandler(req: AppRequest, res: Response) {
+  const formState = req.session?.formState || {};
+  const sessionErrors = req.session?.errors || [];
+
+  res.render('home/template', {
+    form: formState,
+    sessionErrors,
+    errors: {
+      caseSearchForm: {
+        stringFieldRequired: 'Please enter at least one of the following fields: User ID, Case Type ID, Case ID or Jurisdiction ID.',
+        startDateBeforeEndDate: '\'Time from\' must be before \'Time to\'',
+      },
+      startTimestamp: {
+        invalid: 'Invalid \'Time from\' timestamp.',
+        required: '\'Time from\' is required.',
+      },
+      endTimestamp: {
+        invalid: 'Invalid \'Time to\' timestamp.',
+        required: '\'Time to\' is required.',
+      },
+    },
+  });
 }
 
 export default function (app: Application): void {

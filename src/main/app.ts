@@ -55,7 +55,7 @@ setupDev(app,developmentMode);
 // returning "not found" page for requests with paths not resolved by the router
 app.use((req, res) => {
   res.status(404);
-  res.render('not-found');
+  res.render('common/not-found');
 });
 
 // error handler
@@ -66,5 +66,5 @@ app.use((err: HTTPError, req: express.Request, res: express.Response) => {
   res.locals.message = err.message;
   res.locals.error = env === 'development' ? err : {};
   res.status(err.status || 500);
-  res.render('error');
+  res.render('common/error');
 });
