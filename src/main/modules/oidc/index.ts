@@ -20,6 +20,15 @@ interface IdTokenJwtPayload {
  */
 export class OidcMiddleware {
 
+  private nonProtectedUrls = [
+    '/unauthorized',
+    '/main-dev.js',
+    '/main-dev.css',
+    '/assets/css/flatpickr.min.css',
+    '/assets/js/flatpickr.min.js',
+    '/assets/images/favicon.ico',
+  ];
+
   public enableFor(server: Application): void {
     const loginUrl: string = config.get('services.idam.authorizationURL');
     const tokenUrl: string = config.get('services.idam.tokenURL');
@@ -72,25 +81,34 @@ export class OidcMiddleware {
       const data = await response.json() as Record<string, unknown>;
       const jwt: IdTokenJwtPayload = jwt_decode(data.id_token as string);
 
-      req.session.user.accessToken = data.access_tokenn as string;
-      req.session.user.id = jwt.uid;
+      req.session.user = {
+        accessToken: data.access_tokenn as string,
+        id: jwt.uid,
+        roles: jwt.roles,
+      };
       req.session.save(() => res.redirect('/'));
     });
 
-    server.get('/logout', function(req: AppRequest, res){
+    server.get('/logout', function (req: AppRequest, res) {
       req.session.user = undefined;
       req.session.save(() => res.redirect('/'));
     });
 
     server.use((req: AppRequest, res: Response, next: NextFunction) => {
-      if (req.session.user || !config.get('services.idam.enabled')) {
-        res.locals.isLoggedIn = true;
+      if (this.nonProtectedUrls.includes(req.path)) return next();
 
-        return next();
+      if (req.session.user || !config.get('services.idam.enabled')) {
+        // Verify the user has the cft-audit-investigator role
+        const roles = req.session.user?.roles;
+        if (roles && roles.includes('cft-audit-investigator')) {
+          res.locals.isLoggedIn = true;
+          return next();
+        }
+
+        return res.redirect('/unauthorized');
       }
       res.redirect('/login');
     });
-
   }
 
   private checkStatus(response: FetchResponse): FetchResponse {
