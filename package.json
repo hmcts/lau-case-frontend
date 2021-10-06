@@ -19,8 +19,8 @@
     "fortifyScan": "./src/test/java/gradlew -p src/test/java fortifyScan",
     "test:smoke": "./bin/run-smoke-tests.sh",
     "test:functional": "echo 'TODO add functional tests'",
-    "test:mutation": "NODE_ENV=test stryker run src/test/mutation/stryker.conf.js",
-    "cichecks": "yarn && yarn build && yarn lint  && yarn test && yarn test:routes &&  yarn test:a11y"
+    "test:mutation": "yarn build && NODE_ENV=test stryker run src/test/mutation/stryker.conf.js",
+    "cichecks": "yarn && yarn build && yarn lint && yarn test && yarn test:routes && yarn test:a11y"
   },
   "dependencies": {
     "@hmcts/cookie-manager": "^0.0.4",
