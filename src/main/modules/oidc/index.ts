@@ -69,7 +69,7 @@ export class OidcMiddleware {
       }
 
       try {
-        this.checkStatus(response);
+        OidcMiddleware.checkStatus(response);
       } catch (error) {
         logger.error(error);
 
@@ -95,9 +95,9 @@ export class OidcMiddleware {
     });
 
     server.use((req: AppRequest, res: Response, next: NextFunction) => {
-      if (this.nonProtectedUrls.includes(req.path)) return next();
+      if (this.nonProtectedUrls.includes(req.path) || !config.get('services.idam.enabled')) return next();
 
-      if (req.session.user || !config.get('services.idam.enabled')) {
+      if (req.session.user) {
         // Verify the user has the cft-audit-investigator role
         const roles = req.session.user?.roles;
         if (roles && roles.includes('cft-audit-investigator')) {
@@ -111,7 +111,7 @@ export class OidcMiddleware {
     });
   }
 
-  private checkStatus(response: FetchResponse): FetchResponse {
+  private static checkStatus(response: FetchResponse): FetchResponse {
     if (response.ok) {
       // response.status >= 200 && response.status < 300
       return response;
