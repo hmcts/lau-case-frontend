@@ -16,6 +16,7 @@ module.exports = {
     ],
   ignorePatterns: [
     '**',
+    '!config/**',
     '!src/main/**',
     '!src/test/**',
     '!jest.config.js',

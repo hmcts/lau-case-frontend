@@ -16,9 +16,10 @@
     "test:routes": "jest -c jest.routes.config.js",
     "test:a11y": "jest -c jest.a11y.config.js --maxWorkers 15",
     "sonar-scan": "sonar-scanner",
+    "fortifyScan": "./test/java/gradlew -p test/java fortifyScan",
     "test:smoke": "./bin/run-smoke-tests.sh",
     "test:functional": "echo 'TODO add functional tests'",
-    "test:mutation": "stryker run src/test/mutation/stryker.conf.js",
+    "test:mutation": "NODE_ENV=test stryker run src/test/mutation/stryker.conf.js",
     "cichecks": "yarn && yarn build && yarn lint  && yarn test && yarn test:routes &&  yarn test:a11y"
   },
   "dependencies": {
