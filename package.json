@@ -15,9 +15,10 @@
     "test:coverage": "NODE_ENV=test jest --coverage",
     "test:a11y": "NODE_ENV=test jest -c jest.a11y.config.js --maxWorkers 15",
     "sonar-scan": "sonar-scanner",
+    "fortifyScan": "./src/test/java/gradlew -p src/test/java fortifyScan",
     "test:smoke": "./bin/run-smoke-tests.sh",
     "test:functional": "echo 'TODO add functional tests'",
-    "test:mutation": "stryker run src/test/mutation/stryker.conf.js",
+    "test:mutation": "yarn build && NODE_ENV=test stryker run src/test/mutation/stryker.conf.js",
     "cichecks": "yarn && yarn build && yarn lint  && yarn test &&  yarn test:a11y",
     "start-local-env": "./bin/start-local-env.sh"
   },

@@ -27,3 +27,4 @@ functional-output/
 smoke-output/
 coverage/
 infrastructure/.terraform/modules/**
+.stryker-tmp/
