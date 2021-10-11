@@ -7,7 +7,6 @@ const logger = (require('@hmcts/nodejs-logging')).Logger.getLogger('healthcheck'
 const healthcheck = require('@hmcts/nodejs-healthcheck');
 
 const config = require('config');
-const sessionStore = new SessionStorage().getStore();
 
 /**
  * Sets up the HMCTS info and health endpoints
@@ -17,6 +16,7 @@ export class HealthCheck {
     const checks: MetadataObj = {};
     const readinessChecks: MetadataObj = {};
 
+    const sessionStore = new SessionStorage().getStore();
     if (sessionStore.constructor.name === 'RedisStore') {
       const redisHealthcheck = healthcheck.raw(() => {
         // @ts-ignore 'status' is in client object. TS doesn't seem to know this.
