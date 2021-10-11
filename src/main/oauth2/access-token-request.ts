@@ -32,7 +32,7 @@ export function accessTokenRequest(request: Request): Promise<Response> {
   return fetch(get('idam.oauth2.token_endpoint') + formatQueryString(params), options)
     .then((response) =>
       response.status === 200 ? response : response.text().then((text) => Promise.reject(new Error(text))))
-    .then((response) => response.json())
+    .then(async (response) => await response.json() as Response)
     .catch((error) => {
       logger.error('Failed to obtain access token:', error);
       throw error;

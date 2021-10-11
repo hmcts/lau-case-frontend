@@ -1,2 +1,10 @@
 ---
 environment: 'dev'
+services:
+  idam:
+    enabled: false
+    authorizationURL: 'http://localhost:9002/login'
+    tokenURL: 'http://localhost:5000/o/token'
+    clientID: 'lau'
+    clientSecret: '12345678'
+    callbackURL: 'https://localhost:4000/oauth2/callback'

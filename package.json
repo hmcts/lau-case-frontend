@@ -1,6 +1,6 @@
 {
   "name": "lau-case-frontend",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "engines": {
     "node": ">=14.16.0"
@@ -11,16 +11,16 @@
     "lint": "sass-lint -v -q && eslint . --ext .js,.jsx,.ts,.tsx",
     "build": "yarn webpack --config webpack.config.js",
     "build:prod": "NODE_ENV=production yarn webpack --mode production --config webpack.config.js",
-    "test": "jest",
-    "test:coverage": "jest --coverage",
-    "test:routes": "jest -c jest.routes.config.js",
-    "test:a11y": "jest -c jest.a11y.config.js --maxWorkers 15",
+    "test": "NODE_ENV=test jest",
+    "test:coverage": "NODE_ENV=test jest --coverage",
+    "test:a11y": "NODE_ENV=test jest -c jest.a11y.config.js --maxWorkers 15",
     "sonar-scan": "sonar-scanner",
     "fortifyScan": "./src/test/java/gradlew -p src/test/java fortifyScan",
     "test:smoke": "./bin/run-smoke-tests.sh",
     "test:functional": "echo 'TODO add functional tests'",
     "test:mutation": "yarn build && NODE_ENV=test stryker run src/test/mutation/stryker.conf.js",
-    "cichecks": "yarn && yarn build && yarn lint && yarn test && yarn test:routes && yarn test:a11y"
+    "cichecks": "yarn && yarn build && yarn lint  && yarn test &&  yarn test:a11y",
+    "start-local-env": "./bin/start-local-env.sh"
   },
   "dependencies": {
     "@hmcts/cookie-manager": "^0.0.4",
@@ -58,9 +58,10 @@
     "ioredis": "^4.27.9",
     "jquery": "^3.5.1",
     "json2csv": "^5.0.6",
+    "jwt-decode": "^3.1.2",
     "lodash": "^4.17.21",
     "moment": "^2.29.1",
-    "node-fetch": "^2.6.1",
+    "node-fetch": "^2.6.2",
     "nunjucks": "^3.2.2",
     "require-directory": "^2.1.1",
     "serve-favicon": "^2.5.0",

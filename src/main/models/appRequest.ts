@@ -26,4 +26,5 @@ export interface AppSession extends Session {
 export interface UserDetails {
   accessToken: string;
   id: string;
+  roles: string[];
 }

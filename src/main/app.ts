@@ -13,6 +13,9 @@ import { Nunjucks } from './modules/nunjucks';
 import { PropertiesVolume } from './modules/properties-volume';
 import { AppInsights } from './modules/appinsights';
 import {SessionStorage} from './modules/session';
+import {OidcMiddleware} from './modules/oidc';
+import {HealthCheck} from './modules/health';
+
 const { setupDev } = require('./development');
 
 const env = process.env.NODE_ENV || 'development';
@@ -28,6 +31,8 @@ new AppInsights().enable();
 new Nunjucks(developmentMode).enableFor(app);
 new Helmet(config.get('security')).enableFor(app);
 new SessionStorage().enableFor(app);
+new HealthCheck().enableFor(app);
+new OidcMiddleware().enableFor(app);
 
 app.use(favicon(path.join(__dirname, '/public/assets/images/favicon.ico')));
 app.use(express.json());
