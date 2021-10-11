@@ -95,7 +95,7 @@ export class OidcMiddleware {
     });
 
     server.use((req: AppRequest, res: Response, next: NextFunction) => {
-      if (this.nonProtectedUrls.includes(req.path) || !config.get('services.idam.enabled')) return next();
+      if (this.nonProtectedUrls.includes(req.path) || OidcMiddleware.isMainFile(req.path) || !config.get('services.idam.enabled')) return next();
 
       if (req.session.user) {
         // Verify the user has the cft-audit-investigator role
@@ -109,6 +109,13 @@ export class OidcMiddleware {
       }
       res.redirect('/login');
     });
+  }
+
+  private static isMainFile(path: string): boolean {
+    const js = /\/main\.([a-zA-Z]*[0-9]*[a-zA-Z]*)+\.js/gm;
+    const css = /\/main\.([a-zA-Z]*[0-9]*[a-zA-Z]*)+\.css/gm;
+
+    return js.test(path) || css.test(path);
   }
 
   private static checkStatus(response: FetchResponse): FetchResponse {
