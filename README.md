@@ -25,7 +25,7 @@ $ yarn install
 Bundle:
 
 ```bash
-$ yarn webpack
+$ yarn build
 ```
 
 Run:
@@ -34,27 +34,25 @@ Run:
 $ yarn start
 ```
 
-The applications's home page will be available at https://localhost:4000
+The application's home page will be available at https://localhost:4000
 
 ### Running with Docker
+
+A script has been created to start the application with IdAM and it's dependencies.
+Run this script with the following command:
 
 Create docker image:
 
 ```bash
-  docker-compose build
-```
-
-Run the application by executing the following command:
-
-```bash
-  docker-compose up
+  yarn run start-local-env
 ```
 
 This will start the frontend container exposing the application's port
-(set to `4000` in this template app).
+(set to `4000`).
 
-In order to test if the application is up, you can visit https://localhost:4000 in your browser.
-You should get a very basic home page (no styles, etc.).
+The IdAM web admin will be available at http://localhost:8082
+
+An import script is run to import the service, roles and users into IdAM. Details of the users can be found in the [create-users script](docker/idam-importer/scripts/create-users.sh).
 
 ## Developing
 
