@@ -133,8 +133,13 @@ export class SearchController {
     // @ts-ignore
     Object.keys(request).forEach(key => request[key] === '' ? delete request[key] : {});
 
-    request.startTimestamp ? request.startTimestamp = formDateToRequestDate(request.startTimestamp) : null;
-    request.endTimestamp ? request.endTimestamp = formDateToRequestDate(request.endTimestamp) : null;
+    if (request.endTimestamp) {
+      request.endTimestamp = formDateToRequestDate(request.endTimestamp);
+    }
+
+    if (request.endTimestamp) {
+      request.endTimestamp = formDateToRequestDate(request.startTimestamp);
+    }
   }
 
 }
