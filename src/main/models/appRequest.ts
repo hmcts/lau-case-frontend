@@ -19,8 +19,17 @@ export interface AppRequest<T = Partial<CaseSearchRequest>> extends Request {
 
 export interface AppSession extends Session {
   user: UserDetails;
-  formState: Partial<CaseSearchRequest>,
-  errors: FormError[] | undefined;
+  caseActivities?: LogData;
+  formState?: Partial<CaseSearchRequest>;
+  errors?: FormError[] | undefined;
+}
+
+export interface LogData {
+  hasData: boolean;
+  rows: {text:string}[][];
+  noOfRows: number;
+  startRecordNumber: number;
+  moreRecords: boolean;
 }
 
 export interface UserDetails {

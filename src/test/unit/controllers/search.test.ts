@@ -1,4 +1,7 @@
+import nock from 'nock';
+import sinon from 'sinon';
 import {SearchController} from '../../../main/controllers/search.controller';
+import {AppRequest} from '../../../main/models/appRequest';
 
 describe('Search Controller', () => {
   describe('Search form validation', () => {
@@ -65,6 +68,69 @@ describe('Search Controller', () => {
         endTimestamp: '2021-01-01 00:00:01',
       });
       expect(errors.length).toBe(0);
+    });
+  });
+
+  describe('Post call', () => {
+    const searchController: SearchController = new SearchController();
+
+    const res = {
+      redirect: sinon.spy(),
+    };
+
+    beforeEach(() => {
+      res.redirect.resetHistory();
+    });
+
+    it('formats the search request', async () => {
+      const req = {
+        session: {},
+        body: {
+          userId: '123',
+          caseRef: '',
+          caseTypeId: '',
+          caseJurisdictionId: '',
+          startTimestamp: '2021-12-12 12:00:00',
+          endTimestamp: '2021-12-12 12:00:01',
+        },
+      };
+
+      // @ts-ignore
+      return searchController.post(req as AppRequest, res as Response).then(() => {
+        expect(req.body).toStrictEqual({
+          userId: '123',
+          startTimestamp: '2021-12-12T12:00:00',
+          endTimestamp: '2021-12-12T12:00:01',
+        });
+      });
+    });
+
+    it('redirects to the case activity tab', async () => {
+      nock('http://localhost:4550')
+        .get('/audit/caseAction?userId=123&startTimestamp=2021-12-12T12:00:00&endTimestamp=2021-12-12T12:00:01')
+        .reply(
+          200,
+          {actionLog: []},
+        );
+
+      const req = {
+        session: {},
+        body: {
+          userId: '123',
+          caseRef: '',
+          caseTypeId: '',
+          caseJurisdictionId: '',
+          startTimestamp: '2021-12-12 12:00:00',
+          endTimestamp: '2021-12-12 12:00:01',
+        },
+      };
+
+      // @ts-ignore
+      return searchController.post(req as AppRequest, res as Response).then(() => {
+        expect(res.redirect.calledOnce).toBeTruthy();
+        expect(res.redirect.calledWith('/#case-activity-tab')).toBeTruthy();
+        nock.cleanAll();
+      });
     });
   });
 });

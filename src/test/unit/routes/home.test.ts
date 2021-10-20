@@ -11,7 +11,7 @@ describe('Home Route', () => {
     expect(res.header['content-type']).toBe('text/html; charset=utf-8');
     expect(res.statusCode).toBe(200);
     expect(res.text).toContain('Case Audit Search');
-    expect(res.text).toContain('Case View Results');
-    expect(res.text).toContain('Case Searches Results');
+    expect(res.text).toContain('Case Activity');
+    expect(res.text).toContain('Case Searches');
   });
 });

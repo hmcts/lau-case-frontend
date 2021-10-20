@@ -1,0 +1,42 @@
+{% from "govuk/components/table/macro.njk" import govukTable %}
+
+{% if caseActivities and caseActivities.hasData %}
+  <h2 class="govuk-heading-m">Case Activity Results</h2>
+
+  {{ govukTable({
+    firstCellIsHeader: true,
+    head: [
+      {
+        text: "User ID"
+      },
+      {
+        text: "Activity"
+      },
+      {
+        text: "Case Ref."
+      },
+      {
+        text: "Jurisdiction ID"
+      },
+      {
+        text: "Case Type ID"
+      },
+      {
+        text: "Timestamp"
+      }
+    ],
+    rows: caseActivities.rows
+  }) }}
+
+  <p class="govuk-body govuk-!-text-align-right">Total: {{ caseActivities.noOfRows }} records</p>
+
+{% elseif caseActivities %}
+
+  <h2 class="govuk-heading-m">Case Activity Results</h2>
+  <p class="govuk-body">No results found</p>
+
+{% else %}
+
+  <h2 class="govuk-heading-m">Use the Search tab to conduct a search</h2>
+
+{% endif %}

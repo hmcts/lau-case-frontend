@@ -1850,6 +1850,11 @@
   dependencies:
     "@types/superagent" "*"
 
+"@types/totp-generator@^0.0.2":
+  version "0.0.2"
+  resolved "https://registry.yarnpkg.com/@types/totp-generator/-/totp-generator-0.0.2.tgz#f517d64d3248c43fa299f7f5ceca638ec301d7bc"
+  integrity sha512-2BaZbcYqJ8jQZoIYChf/sVSdKvQOw1pqesmdUKGgwb+TBfVbFFx5mBdfL6SRPs8FBa64xep9Yp5CQDHas5b/4Q==
+
 "@types/tunnel@^0.0.1":
   version "0.0.1"
   resolved "https://registry.yarnpkg.com/@types/tunnel/-/tunnel-0.0.1.tgz#0d72774768b73df26f25df9184273a42da72b19c"
@@ -6466,6 +6471,11 @@ jsprim@^1.2.2:
     json-schema "0.2.3"
     verror "1.10.0"
 
+jssha@^3.1.2:
+  version "3.2.0"
+  resolved "https://registry.yarnpkg.com/jssha/-/jssha-3.2.0.tgz#88ec50b866dd1411deaddbe6b3e3692e4c710f16"
+  integrity sha512-QuruyBENDWdN4tZwJbQq7/eAK85FqrI4oDbXjy5IBhYD+2pTJyBUWZe8ctWaCkrV0gy6AaelgOZZBMeswEa/6Q==
+
 just-extend@^4.0.2:
   version "4.2.1"
   resolved "https://registry.yarnpkg.com/just-extend/-/just-extend-4.2.1.tgz#ef5e589afb61e5d66b24eca749409a8939a8c744"
@@ -9318,6 +9328,13 @@ toidentifier@1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/toidentifier/-/toidentifier-1.0.0.tgz#7e1be3470f1e77948bc43d94a3c8f4d7752ba553"
   integrity sha512-yaOH/Pk/VEhBWWTlhI+qXxDFXlejDGcQipMlyxda9nthulaxLZUNcUqFxokp0vcYnvteJln5FNQDRrxj3YcbVw==
+
+totp-generator@^0.0.12:
+  version "0.0.12"
+  resolved "https://registry.yarnpkg.com/totp-generator/-/totp-generator-0.0.12.tgz#98d7c77c1e3d007eddd5e810595bdd5f5eb9c555"
+  integrity sha512-7nPAMn43pbEXqHjxKDDbiYbd5mAtr7YugG98OTPTvIUQ7nKW+Oc0KKUNHcoygLJ7ZKYV2aNnUNTR7wAiDZ7rZg==
+  dependencies:
+    jssha "^3.1.2"
 
 touch@^3.1.0:
   version "3.1.0"

@@ -22,10 +22,19 @@ redis:
     httpOnly: true
     sameSite: 'lax'
 services:
+  case-backend:
+    enabled: true
+    url: 'http://localhost:4550'
+    port: 4550
+    endpoints:
+      caseActivity: '/audit/caseAction'
   idam:
     enabled: true
+    s2sEnabled: true
     authorizationURL: 'https://idam-web-public.aat.platform.hmcts.net/login'
     tokenURL: 'https://idam-api.aat.platform.hmcts.net/o/token'
+    s2sURL: 'http://rpe-service-auth-provider-aat.service.core-compute-aat.internal'
+    s2sSecretLAU: 'AAAAAAAAAAAAAAAA'
     clientID: 'lau'
     clientSecret: 'SECRET'
     callbackURL: 'https://localhost:4000/oauth2/callback'

@@ -8,6 +8,8 @@ redis:
   enabled: USE_REDIS
   secret: REDIS_SECRET
 services:
+  case-backend:
+    url: LAU_BACKEND_URL
   idam:
     authorizationURL: IDAM_WEB_URL
     tokenURL: IDAM_API_URL
