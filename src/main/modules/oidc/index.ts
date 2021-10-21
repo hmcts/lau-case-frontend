@@ -95,8 +95,7 @@ export class OidcMiddleware {
     });
 
     server.use((req: AppRequest, res: Response, next: NextFunction) => {
-      const idamEnabled = Boolean(config.get('services.idam.enabled'));
-      if (this.nonProtectedUrls.includes(req.path) || OidcMiddleware.isMainFile(req.path) || !idamEnabled) return next();
+      if (this.nonProtectedUrls.includes(req.path) || OidcMiddleware.isMainFile(req.path) || !config.get('services.idam.enabled')) return next();
 
       if (req.session.user) {
         // Verify the user has the cft-audit-investigator role
