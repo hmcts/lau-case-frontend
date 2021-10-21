@@ -7,9 +7,9 @@ import { Request } from 'express';
 
 const completeRedirectURI = (uri: string) => {
   if (!uri.startsWith('http')) {
-    return encodeURIComponent(`https://${uri}`);
+    return `https://${uri}`;
   }
-  return encodeURIComponent(uri);
+  return uri;
 };
 
 export function accessTokenRequest(request: Request): Promise<Response> {
