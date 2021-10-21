@@ -114,7 +114,7 @@ export class SearchController {
       // To be sent to API GET
       this.logger.info('API Request Parameters: ', req.body);
 
-      this.formatSearchRequest(req.body as Partial<CaseSearchRequest>);
+      this.formatSearchRequest(req.body);
 
       await this.caseActivityController.getLogData(req.body).then(logData => {
         req.session.caseActivities = logData;

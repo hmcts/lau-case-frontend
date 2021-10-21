@@ -31,7 +31,10 @@ export class AuthService {
           body: JSON.stringify(params),
         },
       )
-        .then(res => res.text())
+        .then(res => {
+          this.logger.info('lease response: ', res.text());
+          return res.text();
+        })
         .then(token => resolve(new ServiceAuthToken(token)))
         .catch(err => {
           this.logger.error(err);
