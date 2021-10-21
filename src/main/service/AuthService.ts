@@ -31,11 +31,11 @@ export class AuthService {
           body: JSON.stringify(params),
         },
       )
-        .then(res => {
-          this.logger.info('lease response: ', res.text());
-          return res.text();
+        .then(res => res.text())
+        .then(token => {
+          this.logger.info('Token: ', token);
+          resolve(new ServiceAuthToken(token));
         })
-        .then(token => resolve(new ServiceAuthToken(token)))
         .catch(err => {
           this.logger.error(err);
           reject(new Error(err));
