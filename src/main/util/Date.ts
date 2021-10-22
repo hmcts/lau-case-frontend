@@ -18,3 +18,7 @@ export const isDateValid = (date: string): boolean => {
 export const formDateToRequestDate = (date: string): string => {
   return moment(date, FORM_DATE_FORMAT).format(REQUEST_DATE_FORMAT).toString();
 };
+
+export const requestDateToFormDate = (date: string): string => {
+  return moment(date, REQUEST_DATE_FORMAT).format(FORM_DATE_FORMAT).toString();
+};

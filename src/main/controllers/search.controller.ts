@@ -2,6 +2,7 @@ import {LoggerInstance} from 'winston';
 const {Logger} = require('@hmcts/nodejs-logging');
 
 import autobind from 'autobind-decorator';
+import config from 'config';
 import {AppRequest, FormError} from '../models/appRequest';
 import {Response} from 'express';
 import {CaseSearchRequest} from '../models/CaseSearchRequest';
@@ -21,6 +22,8 @@ import {CaseActivityController} from './case-activity.controller';
 @autobind
 export class SearchController {
   private logger: LoggerInstance = Logger.getLogger('SearchController');
+
+  private pageSize: number = config.get('pagination.maxRecords');
 
   private caseActivityController = new CaseActivityController();
   private errors: FormError[] = [];
@@ -107,16 +110,18 @@ export class SearchController {
    * @param res Express Response
    */
   public async post(req: AppRequest, res: Response): Promise<void> {
-    req.session.formState = req.body;
-    req.session.errors = this.validateSearchForm(req.body);
+    const searchRequest: Partial<CaseSearchRequest> = req.body;
+    req.session.formState = searchRequest;
+    req.session.errors = this.validateSearchForm(searchRequest);
 
     if (this.getErrors().length === 0) {
+      searchRequest.size = this.pageSize;
+
       // To be sent to API GET
-      this.logger.info('API Request Parameters: ', req.body);
+      this.logger.info('API Request Parameters: ', searchRequest);
 
-      this.formatSearchRequest(req.body);
-
-      await this.caseActivityController.getLogData(req.body).then(logData => {
+      this.formatSearchRequest(searchRequest);
+      await this.caseActivityController.getLogData(searchRequest).then(logData => {
         req.session.caseActivities = logData;
         res.redirect('/#case-activity-tab');
       }).catch((err) => {
@@ -132,6 +137,10 @@ export class SearchController {
     // Remove any properties with empty strings from the request object
     // @ts-ignore
     Object.keys(request).forEach(key => request[key] === '' ? delete request[key] : {});
+
+    if (request.page) {
+      request.page = Number(request.page);
+    }
 
     if (request.startTimestamp) {
       request.startTimestamp = formDateToRequestDate(request.startTimestamp);
