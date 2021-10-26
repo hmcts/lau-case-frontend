@@ -1,5 +1,5 @@
 import {jsonToCsv} from '../../../main/util/CsvHandler';
-import {CaseViewLogs} from '../../../main/models/CaseViewLogs';
+import {CaseActivityLogs} from '../../../main/models/CaseActivityLogs';
 import {CaseSearchLogs} from '../../../main/models/CaseSearchLogs';
 
 const caseViewAuditResponse = require('../../data/caseViewAuditResponse.json');
@@ -8,7 +8,7 @@ const caseSearchAuditResponse = require('../../data/caseSearchAuditResponse.json
 describe('CsvHandler', () => {
 
   it('Converts Case View JSON object to CSV', async () => {
-    const caseViewLogs = new CaseViewLogs(caseViewAuditResponse.viewLog);
+    const caseViewLogs = new CaseActivityLogs(caseViewAuditResponse.viewLog);
     return jsonToCsv(caseViewLogs).then((csv) => {
       expect(csv).toBe(
         '"User Id","Case Ref","Case Jurisdiction Id","Case Type Id","Timestamp"\n' +

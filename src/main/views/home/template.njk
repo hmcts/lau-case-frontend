@@ -11,7 +11,7 @@
   {% endset -%}
 
   {% set caseViewsTabHtml %}
-    {%  include '../case-views/template.njk' %}
+    {%  include '../case-activity/template.njk' %}
   {% endset -%}
 
   {% set caseSearchesTabHtml %}
@@ -28,8 +28,8 @@
         }
       },
       {
-        label: "Case Views",
-        id: "case-views-tab",
+        label: "Case Activity",
+        id: "case-activity-tab",
         panel: {
           html: caseViewsTabHtml
         }

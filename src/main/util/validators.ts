@@ -26,7 +26,7 @@ export const startDateBeforeEndDate = (fields: Partial<CaseSearchRequest>): stri
     const startDate: Moment = moment.utc(fields.startTimestamp, 'yyyy-MM-dd HH:mm:ss');
     const endDate: Moment = moment.utc(fields.endTimestamp, 'yyyy-MM-dd HH:mm:ss');
 
-    if (startDate.isValid() && endDate.isValid() && !startDate.isBefore(endDate)) {
+    if ((startDate.isValid() && endDate.isValid()) && startDate.isAfter(endDate) || fields.startTimestamp === fields.endTimestamp) {
       return 'startDateBeforeEndDate';
     }
   }

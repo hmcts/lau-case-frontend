@@ -12,6 +12,8 @@ import {
   startDateBeforeEndDate,
   validDateInput,
 } from '../util/validators';
+import {formDateToRequestDate} from '../util/Date';
+import {CaseActivityController} from './case-activity.controller';
 
 /**
  * Search Controller class to handle search tab functionality
@@ -20,6 +22,7 @@ import {
 export class SearchController {
   private logger: LoggerInstance = Logger.getLogger('SearchController');
 
+  private caseActivityController = new CaseActivityController();
   private errors: FormError[] = [];
 
   /**
@@ -110,9 +113,32 @@ export class SearchController {
     if (this.getErrors().length === 0) {
       // To be sent to API GET
       this.logger.info('API Request Parameters: ', req.body);
-      res.send(req.body); // To be removed when search is implemented
+
+      this.formatSearchRequest(req.body);
+
+      await this.caseActivityController.getLogData(req.body).then(logData => {
+        req.session.caseActivities = logData;
+        res.redirect('/#case-activity-tab');
+      }).catch((err) => {
+        this.logger.error(err);
+        res.redirect('/error');
+      });
     } else {
       res.redirect('/');
+    }
+  }
+
+  private formatSearchRequest(request: Partial<CaseSearchRequest>) {
+    // Remove any properties with empty strings from the request object
+    // @ts-ignore
+    Object.keys(request).forEach(key => request[key] === '' ? delete request[key] : {});
+
+    if (request.startTimestamp) {
+      request.startTimestamp = formDateToRequestDate(request.startTimestamp);
+    }
+
+    if (request.endTimestamp) {
+      request.endTimestamp = formDateToRequestDate(request.endTimestamp);
     }
   }
 

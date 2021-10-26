@@ -4,3 +4,5 @@ testUrl: http://localhost:4000
 services:
   idam:
     enabled: false
+    s2sEnabled: false
+    s2sURL: 'http://localhost:4552'

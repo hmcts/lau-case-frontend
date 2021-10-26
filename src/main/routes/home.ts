@@ -4,9 +4,11 @@ import {AppRequest} from '../models/appRequest';
 function homeHandler(req: AppRequest, res: Response) {
   const formState = req.session?.formState || {};
   const sessionErrors = req.session?.errors || [];
+  const caseActivities = req.session?.caseActivities;
 
   res.render('home/template', {
     form: formState,
+    caseActivities,
     sessionErrors,
     errors: {
       caseSearchForm: {
