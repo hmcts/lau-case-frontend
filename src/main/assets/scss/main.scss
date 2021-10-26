@@ -1,5 +1,4 @@
 @import '~govuk-frontend';
-
 @import './loading-spinner';
 
 $color-grey: #808080;
@@ -15,4 +14,8 @@ $color-grey: #808080;
   cursor: default;
   font-family: 'GDS Transport', arial, sans-serif;
   font-size: 16px;
+}
+
+.govuk-width-container {
+  max-width: 1000px;
 }
