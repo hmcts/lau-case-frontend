@@ -1,7 +1,8 @@
 {
-  "viewLog": [
+  "actionLog": [
     {
       "userId": "3748238",
+      "caseAction": "VIEW",
       "caseRef": "1615817621013640",
       "caseJurisdictionId": "Probate",
       "caseTypeId": "Caveats",
@@ -9,6 +10,7 @@
     },
     {
       "userId": "3748239",
+      "caseAction": "VIEW",
       "caseRef": "1615817621013640",
       "caseJurisdictionId": "Probate",
       "caseTypeId": "Caveats",

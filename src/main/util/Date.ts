@@ -10,6 +10,7 @@ export const partialDateRegex = {
 };
 export const FORM_DATE_FORMAT = 'YYYY-MM-DD HH:mm:ss';
 export const REQUEST_DATE_FORMAT = 'YYYY-MM-DDTHH:mm:ss';
+export const CSV_DATE_FORMAT = 'YYYYMMDD';
 
 export const isDateValid = (date: string): boolean => {
   return date && (date.match(DATE_REGEX) && moment.utc(date, FORM_DATE_FORMAT).isValid());
@@ -21,4 +22,8 @@ export const formDateToRequestDate = (date: string): string => {
 
 export const requestDateToFormDate = (date: string): string => {
   return moment(date, REQUEST_DATE_FORMAT).format(FORM_DATE_FORMAT).toString();
+};
+
+export const csvDate = (): string => {
+  return moment().format(CSV_DATE_FORMAT).toString();
 };

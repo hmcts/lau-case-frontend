@@ -6,8 +6,9 @@ import {Response} from 'express';
 import {CaseService} from '../service/CaseService';
 import {CaseSearchRequest} from '../models/CaseSearchRequest';
 import {AppRequest, LogData} from '../models/appRequest';
-import {CaseActivityLog} from '../models/CaseActivityLogs';
-import {requestDateToFormDate} from '../util/Date';
+import {CaseActivityLog, CaseActivityLogs} from '../models/CaseActivityLogs';
+import {csvDate, requestDateToFormDate} from '../util/Date';
+import {jsonToCsv} from '../util/CsvHandler';
 
 /**
  * Case Activity Controller class to handle case activity tab functionality
@@ -50,6 +51,20 @@ export class CaseActivityController {
     }).catch((err) => {
       this.logger.error(err);
       res.redirect('/error');
+    });
+  }
+
+  public async getCsv(req: AppRequest, res: Response): Promise<void> {
+    const searchForm = req.session.formState || {};
+
+    return this.service.getCaseActivities(searchForm).then(caseActivities => {
+      const caseActivityLogs = new CaseActivityLogs(caseActivities.actionLog);
+      const filename = `caseActivity ${csvDate()}.csv`;
+      jsonToCsv(caseActivityLogs).then(csv => {
+        res.setHeader('Content-disposition', `attachment; filename=${filename}`);
+        res.set('Content-Type', 'text/csv');
+        res.status(200).send(csv);
+      });
     });
   }
 
