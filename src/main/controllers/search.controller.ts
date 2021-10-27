@@ -15,6 +15,7 @@ import {
 } from '../util/validators';
 import {formDateToRequestDate} from '../util/Date';
 import {CaseActivityController} from './case-activity.controller';
+import {CaseSearchesController} from './case-searches.controller';
 
 /**
  * Search Controller class to handle search tab functionality
@@ -26,6 +27,7 @@ export class SearchController {
   private pageSize: number = config.get('pagination.maxRecords');
 
   private caseActivityController = new CaseActivityController();
+  private caseSearchesController = new CaseSearchesController();
   private errors: FormError[] = [];
 
   /**
@@ -121,10 +123,15 @@ export class SearchController {
       this.logger.info('API Request Parameters: ', searchRequest);
 
       this.formatSearchRequest(searchRequest);
-      await this.caseActivityController.getLogData(searchRequest).then(logData => {
-        req.session.caseActivities = logData;
+
+      await Promise.all([
+        this.caseActivityController.getLogData(searchRequest),
+        this.caseSearchesController.getLogData(searchRequest),
+      ]).then(value => {
+        req.session.caseActivities = value[0];
+        req.session.caseSearches = value[1];
         res.redirect('/#case-activity-tab');
-      }).catch((err) => {
+      }).catch(err => {
         this.logger.error(err);
         res.redirect('/error');
       });

@@ -30,6 +30,7 @@ services:
     port: 4550
     endpoints:
       caseActivity: '/audit/caseAction'
+      caseSearch: '/audit/caseSearch'
   idam:
     enabled: true
     s2sEnabled: true

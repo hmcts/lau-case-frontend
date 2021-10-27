@@ -20,6 +20,7 @@ export interface AppRequest<T = Partial<CaseSearchRequest>> extends Request {
 export interface AppSession extends Session {
   user: UserDetails;
   caseActivities?: LogData;
+  caseSearches?: LogData;
   formState?: Partial<CaseSearchRequest>;
   errors?: FormError[];
 }
