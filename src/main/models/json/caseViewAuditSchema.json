@@ -9,7 +9,7 @@
     "moreRecords"
   ],
   "properties": {
-    "viewLog": {
+    "actionLog": {
       "id": "#viewLog",
       "type": "array",
       "items": { "$ref": "caseViewLogSchema.json" },

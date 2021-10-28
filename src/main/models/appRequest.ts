@@ -21,7 +21,7 @@ export interface AppSession extends Session {
   user: UserDetails;
   caseActivities?: LogData;
   formState?: Partial<CaseSearchRequest>;
-  errors?: FormError[] | undefined;
+  errors?: FormError[];
 }
 
 export interface LogData {
@@ -30,6 +30,7 @@ export interface LogData {
   noOfRows: number;
   startRecordNumber: number;
   moreRecords: boolean;
+  currentPage: number;
 }
 
 export interface UserDetails {

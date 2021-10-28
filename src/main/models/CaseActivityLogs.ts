@@ -12,5 +12,5 @@ export interface CaseActivityLog {
 }
 
 export class CaseActivityLogs extends Logs<CaseActivityLog> {
-  public _fields: string[] = ['userId', 'caseRef', 'caseJurisdictionId', 'caseTypeId', 'timestamp'];
+  public _fields: string[] = ['userId', 'caseAction', 'caseRef', 'caseJurisdictionId', 'caseTypeId', 'timestamp'];
 }

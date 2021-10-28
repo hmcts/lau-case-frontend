@@ -1,1 +1,21 @@
 @import '~govuk-frontend';
+@import './loading-spinner';
+
+$color-grey: #808080;
+
+.flex-space-between {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.disabled-link {
+  color: $color-grey;
+  cursor: default;
+  font-family: 'GDS Transport', arial, sans-serif;
+  font-size: 16px;
+}
+
+.govuk-width-container {
+  max-width: 1000px;
+}

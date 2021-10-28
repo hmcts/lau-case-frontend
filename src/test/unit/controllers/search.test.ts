@@ -15,6 +15,7 @@ describe('Search Controller', () => {
         userId: '',
         startTimestamp: '2021-01-01 00:00:00',
         endTimestamp: '2021-01-01 00:00:01',
+        page: 1,
       });
       expect(errors.length).toBe(1);
       expect(errors[0]).toStrictEqual({propertyName: 'caseSearchForm', errorType: 'stringFieldRequired'});
@@ -92,6 +93,7 @@ describe('Search Controller', () => {
           caseJurisdictionId: '',
           startTimestamp: '2021-12-12 12:00:00',
           endTimestamp: '2021-12-12 12:00:01',
+          page: 1,
         },
       };
 
@@ -101,13 +103,15 @@ describe('Search Controller', () => {
           userId: '123',
           startTimestamp: '2021-12-12T12:00:00',
           endTimestamp: '2021-12-12T12:00:01',
+          page: 1,
+          size: 5,
         });
       });
     });
 
     it('redirects to the case activity tab', async () => {
       nock('http://localhost:4550')
-        .get('/audit/caseAction?userId=123&startTimestamp=2021-12-12T12:00:00&endTimestamp=2021-12-12T12:00:01')
+        .get('/audit/caseAction?userId=123&startTimestamp=2021-12-12T12:00:00&endTimestamp=2021-12-12T12:00:01&size=5')
         .reply(
           200,
           {actionLog: []},

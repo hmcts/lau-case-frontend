@@ -1,5 +1,7 @@
 ---
 environment: 'dev'
+pagination:
+  maxRecords: 20
 redis:
   enabled: false
 services:
