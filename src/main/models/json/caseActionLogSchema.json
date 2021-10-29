@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "id": "classpath:/JsonSchema/case_view_log_schema.json",
+  "id": "classpath:/JsonSchema/case_action_log_schema.json",
   "type": "object",
-  "title": "The LAU Case View Log Schema",
+  "title": "The LAU Case Action Log Schema",
   "required": [
     "userId",
     "caseRef",

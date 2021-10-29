@@ -68,17 +68,14 @@ export class CaseSearchesController {
     });
   }
 
-  private convertDataToTableRows(logs: CaseSearchLog[]): {text:string}[][] {
+  private convertDataToTableRows(logs: CaseSearchLog[]): {text:string, classes?: string}[][] {
     const splitList = logs.length > 12;
 
     const rows: {text:string}[][] = [];
     logs.slice(0, splitList ? 10 : 12).forEach((log) => {
-      const row: {text: string}[] = [];
+      const row: {text: string, classes?: string}[] = [];
       const keys = Object.keys(log);
-      keys.forEach((key: keyof CaseSearchLog) => {
-        const text = key === 'timestamp' ? requestDateToFormDate(log[key]) : log[key];
-        row.push({ text });
-      });
+      keys.forEach((key: keyof CaseSearchLog) => row.push(this.formatRowData(log, key)));
 
       rows.push(row);
     });
@@ -90,14 +87,22 @@ export class CaseSearchesController {
       const elipsesRow = [{text: '...'}].concat(Array(keys.length - 1).fill({text: ''}));
       rows.push(elipsesRow);
 
-      const row: {text: string}[] = [];
-      keys.forEach((key: keyof CaseSearchLog) => {
-        const text = key === 'timestamp' ? requestDateToFormDate(lastLog[key]) : lastLog[key];
-        row.push({ text });
-      });
+      const row: {text: string, classes?: string}[] = [];
+      keys.forEach((key: keyof CaseSearchLog) => row.push(this.formatRowData(lastLog, key)));
       rows.push(row);
     }
 
     return rows;
+  }
+
+  private formatRowData(log: CaseSearchLog, key: keyof CaseSearchLog): {text: string, classes?: string} {
+    switch (key) {
+      case 'caseRefs':
+        return { text: String(log[key]).replace(/,/g, ', '), classes: 'case-refs-cell' };
+      case 'timestamp':
+        return { text: requestDateToFormDate(log[key]) };
+      default:
+        return { text: String(log[key]) };
+    }
   }
 }

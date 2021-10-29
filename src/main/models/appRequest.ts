@@ -27,7 +27,7 @@ export interface AppSession extends Session {
 
 export interface LogData {
   hasData: boolean;
-  rows: {text:string}[][];
+  rows: {text:string, classes?: string}[][];
   noOfRows: number;
   startRecordNumber: number;
   moreRecords: boolean;

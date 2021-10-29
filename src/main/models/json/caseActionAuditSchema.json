@@ -1,19 +1,19 @@
 {
   "$schema": "http://json-schema.org/draft-04/schema#",
-  "id": "classpath:/JsonSchema/case_view_audit_schema.json",
+  "id": "classpath:/JsonSchema/case_action_audit_schema.json",
   "type": "object",
-  "title": "The LAU Case View Audit Schema",
+  "title": "The LAU Case Action Audit Schema",
   "required": [
-    "viewLog",
+    "actionLog",
     "startRecordNumber",
     "moreRecords"
   ],
   "properties": {
     "actionLog": {
-      "id": "#viewLog",
+      "id": "#actionLog",
       "type": "array",
-      "items": { "$ref": "caseViewLogSchema.json" },
-      "title": "Array of case view logs"
+      "items": { "$ref": "caseActionLogSchema.json" },
+      "title": "Array of case action logs"
     },
     "startRecordNumber": {
       "id": "#startRecordNumber",
