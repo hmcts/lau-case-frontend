@@ -20,13 +20,14 @@ export interface AppRequest<T = Partial<CaseSearchRequest>> extends Request {
 export interface AppSession extends Session {
   user: UserDetails;
   caseActivities?: LogData;
+  caseSearches?: LogData;
   formState?: Partial<CaseSearchRequest>;
   errors?: FormError[];
 }
 
 export interface LogData {
   hasData: boolean;
-  rows: {text:string}[][];
+  rows: {text:string, classes?: string}[][];
   noOfRows: number;
   startRecordNumber: number;
   moreRecords: boolean;

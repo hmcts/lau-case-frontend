@@ -5,10 +5,12 @@ function homeHandler(req: AppRequest, res: Response) {
   const formState = req.session?.formState || {};
   const sessionErrors = req.session?.errors || [];
   const caseActivities = req.session?.caseActivities;
+  const caseSearches = req.session?.caseSearches;
 
   res.render('home/template', {
     form: formState,
     caseActivities,
+    caseSearches,
     sessionErrors,
     errors: {
       caseSearchForm: {

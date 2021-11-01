@@ -6,6 +6,7 @@ import config from 'config';
 import {CaseActivityAudit} from '../models/CaseActivityAudit';
 import {CaseSearchRequest} from '../models/CaseSearchRequest';
 import {AuthService} from './AuthService';
+import {CaseSearchAudit} from '../models/CaseSearchAudit';
 
 export class CaseService {
   private logger: LoggerInstance = Logger.getLogger('CaseService');
@@ -18,7 +19,7 @@ export class CaseService {
   private async get(endpoint: string, qs?: string): Promise<unknown> {
     const s2sToken = this.s2sEnabled ? await this.authService.retrieveServiceToken() : {bearerToken: ''};
     const response: FetchResponse = await fetch(
-      encodeURI(`${this.baseApiUrl}${endpoint}${qs || ''}`),
+      `${this.baseApiUrl}${endpoint}${qs || ''}`,
       {
         method: 'GET',
         headers: {
@@ -37,13 +38,18 @@ export class CaseService {
   private getQueryString(params: Partial<CaseSearchRequest>): string {
     return '?' + Object.keys(params)
       // @ts-ignore
-      .map(key => key + '=' + params[key])
+      .map(key => key + '=' + encodeURIComponent(params[key]))
       .join('&');
   }
 
   public getCaseActivities(searchParameters: Partial<CaseSearchRequest>): Promise<CaseActivityAudit> {
     const endpoint: string = config.get('services.case-backend.endpoints.caseActivity');
     return this.get(endpoint, this.getQueryString(searchParameters)) as Promise<CaseActivityAudit>;
+  }
+
+  public getCaseSearches(searchParameters: Partial<CaseSearchRequest>): Promise<CaseSearchAudit> {
+    const endpoint: string = config.get('services.case-backend.endpoints.caseSearch');
+    return this.get(endpoint, this.getQueryString(searchParameters)) as Promise<CaseSearchAudit>;
   }
 
 }

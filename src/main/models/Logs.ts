@@ -1,3 +1,5 @@
+import {requestDateToFormDate} from '../util/Date';
+
 export abstract class Logs<LogType> {
   public _fields: string[];
 
@@ -13,5 +15,17 @@ export abstract class Logs<LogType> {
 
   get data(): LogType[] {
     return this._data;
+  }
+
+  get csvData(): LogType[] {
+    return this._data.map(d => {
+      if ('timestamp' in d) {
+        // @ts-ignore
+        d.timestamp = requestDateToFormDate(d.timestamp);
+        return d;
+      } else {
+        return d;
+      }
+    });
   }
 }

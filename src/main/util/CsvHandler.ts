@@ -38,7 +38,7 @@ function jsonToCsv(Logs: LogsModel<unknown>): Promise<string> {
       .on('data', chunk => (csv += chunk.toString()))
       .on('end', () => resolve(csv))
       .on('error', err => reject(err));
-    Logs.data.forEach(d => asyncParser.input.push(d));
+    Logs.csvData.forEach(d => asyncParser.input.push(d));
     asyncParser.input.end();
   });
 }
