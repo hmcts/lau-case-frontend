@@ -11,32 +11,43 @@ const formatDate = (date: Date): string => {
     + ` ${zeroPad(date.getHours())}:${zeroPad(date.getMinutes())}:${zeroPad(date.getSeconds())}`;
 };
 
-const flatpickrOptions: Options = {
-  allowInvalidPreload: true,
-  enableTime: true,
-  allowInput: true,
-  enableSeconds: true,
-  clickOpens: false,
-  closeOnSelect: true,
-  formatDate: (date: Date) => {
-    return formatDate(date);
-  },
+const startTimestampSuffix = document.getElementsByClassName('start-timestamp-suffix')[0] as HTMLElement;
+const endTimestampSuffix = document.getElementsByClassName('end-timestamp-suffix')[0] as HTMLElement;
+
+const getOptions = (suffixEl: HTMLElement): Options => {
+  return {
+    allowInvalidPreload: true,
+    enableTime: true,
+    allowInput: true,
+    enableSeconds: true,
+    clickOpens: false,
+    closeOnSelect: true,
+    ignoredFocusElements: [
+      startTimestampSuffix,
+      endTimestampSuffix,
+    ],
+    formatDate: (date: Date) => {
+      return formatDate(date);
+    },
+    onOpen: () => {
+      suffixEl.classList.add('flatpickr-open');
+    },
+    onClose: () => {
+      suffixEl.classList.remove('flatpickr-open');
+    },
+  };
 };
 
 const form = getById('case-search-form') as HTMLFormElement | null;
 
 if (form && getById('startTimestamp') && getById('endTimestamp')) {
-  // @ts-ignore
-  const startCal: flatpickr.Instance = flatpickr('#startTimestamp', flatpickrOptions);
-  const startTimestampSuffix = document.getElementsByClassName('startTimestampSuffix')[0];
+  const startCal: flatpickr.Instance = flatpickr('#startTimestamp', getOptions(startTimestampSuffix)) as flatpickr.Instance;
   startTimestampSuffix.addEventListener('click', () => {
-    startCal.open();
+    startCal.isOpen ? startCal.close() : startCal.open();
   });
 
-  // @ts-ignore
-  const endCal: flatpickr.Instance = flatpickr('#endTimestamp', flatpickrOptions);
-  const endTimestampSuffix = document.getElementsByClassName('endTimestampSuffix')[0];
+  const endCal: flatpickr.Instance = flatpickr('#endTimestamp', getOptions(endTimestampSuffix)) as flatpickr.Instance;
   endTimestampSuffix.addEventListener('click', () => {
-    endCal.open();
+    endCal.isOpen ? endCal.close() : endCal.open();
   });
 }
