@@ -15,6 +15,15 @@ interface IdTokenJwtPayload {
   roles: string[];
 }
 
+interface IdamResponseData {
+  access_token: string;
+  refresh_token: string;
+  scope: string;
+  id_token: string;
+  token_type: string;
+  expires_in: number;
+}
+
 /**
  * Adds the oidc middleware to add oauth authentication
  */
@@ -78,11 +87,12 @@ export class OidcMiddleware {
         return res.redirect('/');
       }
 
-      const data = await response.json() as Record<string, unknown>;
-      const jwt: IdTokenJwtPayload = jwt_decode(data.id_token as string);
+      const data: IdamResponseData = await response.json();
+      const jwt: IdTokenJwtPayload = jwt_decode(data.id_token);
 
       req.session.user = {
-        accessToken: data.access_tokenn as string,
+        accessToken: data.access_token,
+        idToken: data.id_token,
         id: jwt.uid,
         roles: jwt.roles,
       };

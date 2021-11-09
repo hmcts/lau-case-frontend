@@ -7,6 +7,7 @@ import {CaseActivityAudit} from '../models/CaseActivityAudit';
 import {CaseSearchRequest} from '../models/CaseSearchRequest';
 import {AuthService} from './AuthService';
 import {CaseSearchAudit} from '../models/CaseSearchAudit';
+import {AppRequest, UserDetails} from '../models/appRequest';
 
 export class CaseService {
   private logger: LoggerInstance = Logger.getLogger('CaseService');
@@ -16,7 +17,7 @@ export class CaseService {
 
   private authService = new AuthService();
 
-  private async get(endpoint: string, qs?: string): Promise<unknown> {
+  private async get(userDetails: UserDetails, endpoint: string, qs?: string): Promise<unknown> {
     const s2sToken = this.s2sEnabled ? await this.authService.retrieveServiceToken() : {bearerToken: ''};
     const response: FetchResponse = await fetch(
       `${this.baseApiUrl}${endpoint}${qs || ''}`,
@@ -25,6 +26,7 @@ export class CaseService {
         headers: {
           'Content-Type': 'application/json',
           'ServiceAuthorization': 'Bearer ' + s2sToken.bearerToken,
+          'Authorization': 'Bearer ' + userDetails?.idToken || '',
         },
       },
     ).catch(err => {
@@ -42,14 +44,16 @@ export class CaseService {
       .join('&');
   }
 
-  public getCaseActivities(searchParameters: Partial<CaseSearchRequest>): Promise<CaseActivityAudit> {
+  public getCaseActivities(req: AppRequest): Promise<CaseActivityAudit> {
     const endpoint: string = config.get('services.case-backend.endpoints.caseActivity');
-    return this.get(endpoint, this.getQueryString(searchParameters)) as Promise<CaseActivityAudit>;
+    const searchParameters = req.session.formState || {};
+    return this.get(req.session.user, endpoint, this.getQueryString(searchParameters)) as Promise<CaseActivityAudit>;
   }
 
-  public getCaseSearches(searchParameters: Partial<CaseSearchRequest>): Promise<CaseSearchAudit> {
+  public getCaseSearches(req: AppRequest): Promise<CaseSearchAudit> {
     const endpoint: string = config.get('services.case-backend.endpoints.caseSearch');
-    return this.get(endpoint, this.getQueryString(searchParameters)) as Promise<CaseSearchAudit>;
+    const searchParameters = req.session.formState || {};
+    return this.get(req.session.user, endpoint, this.getQueryString(searchParameters)) as Promise<CaseSearchAudit>;
   }
 
 }

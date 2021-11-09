@@ -36,6 +36,7 @@ export interface LogData {
 
 export interface UserDetails {
   accessToken: string;
+  idToken: string;
   id: string;
   roles: string[];
 }

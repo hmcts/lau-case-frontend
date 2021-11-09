@@ -4,7 +4,6 @@ const {Logger} = require('@hmcts/nodejs-logging');
 import autobind from 'autobind-decorator';
 import {Response} from 'express';
 import {CaseService} from '../service/CaseService';
-import {CaseSearchRequest} from '../models/CaseSearchRequest';
 import {AppRequest, LogData} from '../models/appRequest';
 import {CaseActivityLog, CaseActivityLogs} from '../models/CaseActivityLogs';
 import {csvDate, requestDateToFormDate} from '../util/Date';
@@ -19,16 +18,16 @@ export class CaseActivityController {
 
   private service = new CaseService();
 
-  public async getLogData(searchRequest: Partial<CaseSearchRequest>): Promise<LogData> {
+  public async getLogData(req: AppRequest): Promise<LogData> {
     this.logger.info('getLogData called');
-    return this.service.getCaseActivities(searchRequest).then(caseActivities => {
+    return this.service.getCaseActivities(req).then(caseActivities => {
       return {
         hasData: caseActivities.actionLog.length > 0,
         rows: this.convertDataToTableRows(caseActivities.actionLog),
         noOfRows: caseActivities.actionLog.length,
         startRecordNumber: caseActivities.startRecordNumber,
         moreRecords: caseActivities.moreRecords,
-        currentPage: searchRequest.page,
+        currentPage: req.session.formState.page,
       };
     });
   }
@@ -45,7 +44,7 @@ export class CaseActivityController {
 
     this.logger.info('CaseActivity search for page ', req.params.pageNumber);
 
-    await this.getLogData(searchForm).then(logData => {
+    await this.getLogData(req).then(logData => {
       req.session.caseActivities = logData;
       res.redirect('/#case-activity-tab');
     }).catch((err) => {
@@ -55,9 +54,7 @@ export class CaseActivityController {
   }
 
   public async getCsv(req: AppRequest, res: Response): Promise<void> {
-    const searchForm = req.session.formState || {};
-
-    return this.service.getCaseActivities(searchForm).then(caseActivities => {
+    return this.service.getCaseActivities(req).then(caseActivities => {
       const caseActivityLogs = new CaseActivityLogs(caseActivities.actionLog);
       const filename = `caseActivity ${csvDate()}.csv`;
       jsonToCsv(caseActivityLogs).then(csv => {
