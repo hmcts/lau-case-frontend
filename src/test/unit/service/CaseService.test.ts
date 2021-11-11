@@ -4,6 +4,7 @@ import {CaseService} from '../../../main/service/CaseService';
 import {CaseActivityAudit} from '../../../main/models/CaseActivityAudit';
 import {CaseSearchRequest} from '../../../main/models/CaseSearchRequest';
 import {CaseSearchAudit} from '../../../main/models/CaseSearchAudit';
+import {AppRequest} from '../../../main/models/appRequest';
 
 describe('Case Service', () => {
   const caseService = new CaseService();
@@ -31,7 +32,14 @@ describe('Case Service', () => {
         startTimestamp: '2021-12-12T12:00:00',
         endTimestamp: '2021-12-12T12:00:01',
       };
-      const caseActivities: CaseActivityAudit = await caseService.getCaseActivities(searchParameters);
+
+      const req = {
+        session: {
+          formState: searchParameters,
+        },
+      };
+
+      const caseActivities: CaseActivityAudit = await caseService.getCaseActivities(req as AppRequest);
 
       expect(caseActivities).toStrictEqual(caseActivityAudit);
     });
@@ -59,7 +67,14 @@ describe('Case Service', () => {
         startTimestamp: '2021-12-12T12:00:00',
         endTimestamp: '2021-12-12T12:00:01',
       };
-      const caseSearches: CaseSearchAudit = await caseService.getCaseSearches(searchParameters);
+
+      const req = {
+        session: {
+          formState: searchParameters,
+        },
+      };
+
+      const caseSearches: CaseSearchAudit = await caseService.getCaseSearches(req as AppRequest);
 
       expect(caseSearches).toStrictEqual(caseSearchAudit);
     });

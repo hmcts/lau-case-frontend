@@ -27,7 +27,13 @@ describe('Case Activity Controller', () => {
         page: 1,
       };
 
-      return caseActivityController.getLogData(searchRequest).then((caseActivities: LogData) => {
+      const req = {
+        session: {
+          formState: searchRequest,
+        },
+      };
+
+      return caseActivityController.getLogData(req as AppRequest).then((caseActivities: LogData) => {
         const expectCaseActivities: LogData = {
           hasData: false,
           moreRecords: false,
@@ -81,7 +87,13 @@ describe('Case Activity Controller', () => {
         page: 1,
       };
 
-      return caseActivityController.getLogData(searchRequest).then((caseActivities: LogData) => {
+      const req = {
+        session: {
+          formState: searchRequest,
+        },
+      };
+
+      return caseActivityController.getLogData(req as AppRequest).then((caseActivities: LogData) => {
         const expectCaseActivities: LogData = {
           hasData: true,
           moreRecords: false,
@@ -119,7 +131,13 @@ describe('Case Activity Controller', () => {
         page: 1,
       };
 
-      return caseActivityController.getLogData(searchRequest).then((caseActivities: LogData) => {
+      const req = {
+        session: {
+          formState: searchRequest,
+        },
+      };
+
+      return caseActivityController.getLogData(req as AppRequest).then((caseActivities: LogData) => {
         const expectCaseActivities: LogData = {
           hasData: true,
           moreRecords: false,

@@ -14,7 +14,6 @@ export class AuthService {
   private logger: LoggerInstance = Logger.getLogger('AuthService');
 
   retrieveServiceToken(): Promise<ServiceAuthToken> {
-
     const params = {
       microservice: microserviceName,
       oneTimePassword: totp(totpSecret),
@@ -41,6 +40,5 @@ export class AuthService {
           reject(new Error(err));
         });
     });
-
   }
 }

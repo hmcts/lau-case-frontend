@@ -3,7 +3,6 @@ const {Logger} = require('@hmcts/nodejs-logging');
 
 import autobind from 'autobind-decorator';
 import {CaseService} from '../service/CaseService';
-import {CaseSearchRequest} from '../models/CaseSearchRequest';
 import {AppRequest, LogData} from '../models/appRequest';
 import {csvDate, requestDateToFormDate} from '../util/Date';
 import {CaseSearchLog, CaseSearchLogs} from '../models/CaseSearchLogs';
@@ -19,16 +18,16 @@ export class CaseSearchesController {
 
   private service = new CaseService();
 
-  public async getLogData(searchRequest: Partial<CaseSearchRequest>): Promise<LogData> {
+  public async getLogData(req: AppRequest): Promise<LogData> {
     this.logger.info('getLogData called');
-    return this.service.getCaseSearches(searchRequest).then(caseSearches => {
+    return this.service.getCaseSearches(req).then(caseSearches => {
       return {
         hasData: caseSearches.searchLog.length > 0,
         rows: this.convertDataToTableRows(caseSearches.searchLog),
         noOfRows: caseSearches.searchLog.length,
         startRecordNumber: caseSearches.startRecordNumber,
         moreRecords: caseSearches.moreRecords,
-        currentPage: searchRequest.page,
+        currentPage: req.session.formState.page,
       };
     });
   }
@@ -45,7 +44,7 @@ export class CaseSearchesController {
 
     this.logger.info('CaseSearches search for page ', req.params.pageNumber);
 
-    await this.getLogData(searchForm).then(logData => {
+    await this.getLogData(req).then(logData => {
       req.session.caseSearches = logData;
       res.redirect('/#case-searches-tab');
     }).catch((err) => {
@@ -55,9 +54,7 @@ export class CaseSearchesController {
   }
 
   public async getCsv(req: AppRequest, res: Response): Promise<void> {
-    const searchForm = req.session.formState || {};
-
-    return this.service.getCaseSearches(searchForm).then(caseSearches => {
+    return this.service.getCaseSearches(req).then(caseSearches => {
       const caseSearchLogs = new CaseSearchLogs(caseSearches.searchLog);
       const filename = `caseSearches ${csvDate()}.csv`;
       jsonToCsv(caseSearchLogs).then(csv => {

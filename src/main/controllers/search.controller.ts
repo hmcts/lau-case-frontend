@@ -125,8 +125,8 @@ export class SearchController {
       this.formatSearchRequest(searchRequest);
 
       await Promise.all([
-        this.caseActivityController.getLogData(searchRequest),
-        this.caseSearchesController.getLogData(searchRequest),
+        this.caseActivityController.getLogData(req),
+        this.caseSearchesController.getLogData(req),
       ]).then(value => {
         req.session.caseActivities = value[0];
         req.session.caseSearches = value[1];

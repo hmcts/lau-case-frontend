@@ -27,7 +27,14 @@ describe('Case Searches Controller', () => {
         page: 1,
       };
 
-      return caseSearchesController.getLogData(searchRequest).then((caseSearches: LogData) => {
+      const req = {
+        session: {
+          formState: searchRequest,
+          user: {idToken: ''},
+        },
+      };
+
+      return caseSearchesController.getLogData(req as AppRequest).then((caseSearches: LogData) => {
         const expectCaseSearches: LogData = {
           hasData: false,
           moreRecords: false,
@@ -75,7 +82,14 @@ describe('Case Searches Controller', () => {
         page: 1,
       };
 
-      return caseSearchesController.getLogData(searchRequest).then((caseSearches: LogData) => {
+      const req = {
+        session: {
+          formState: searchRequest,
+          user: {idToken: ''},
+        },
+      };
+
+      return caseSearchesController.getLogData(req as AppRequest).then((caseSearches: LogData) => {
         const expectCaseSearches: LogData = {
           hasData: true,
           moreRecords: false,
@@ -113,7 +127,14 @@ describe('Case Searches Controller', () => {
         page: 1,
       };
 
-      return caseSearchesController.getLogData(searchRequest).then((caseSearches: LogData) => {
+      const req = {
+        session: {
+          formState: searchRequest,
+          user: {idToken: ''},
+        },
+      };
+
+      return caseSearchesController.getLogData(req as AppRequest).then((caseSearches: LogData) => {
         const expectCaseSearches: LogData = {
           hasData: true,
           moreRecords: false,
