@@ -17,6 +17,8 @@ services:
       - IDAM_CLIENT_ID=lau
       - IDAM_CLIENT_SECRET=12345678
       - OAUTH_CLIENT_REDIRECT=http://localhost:4000/oauth2/callback
+      - S2S_URL=http://service-auth-provider-api:8080
+      - LAU_BACKEND_URL=http://host.docker.internal:4550
     ports:
       - "4000:4000"
     depends_on:
