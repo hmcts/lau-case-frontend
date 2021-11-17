@@ -3,7 +3,6 @@ import { glob } from 'glob';
 const { Logger } = require('@hmcts/nodejs-logging');
 
 import config = require('config');
-import cookieParser from 'cookie-parser';
 import express from 'express';
 import { Helmet } from './modules/helmet';
 import * as path from 'path';
@@ -37,7 +36,6 @@ new OidcMiddleware().enableFor(app);
 app.use(favicon(path.join(__dirname, '/public/assets/images/favicon.ico')));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use((req, res, next) => {
   res.setHeader(
