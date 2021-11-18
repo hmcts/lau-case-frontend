@@ -14,7 +14,7 @@ function homeHandler(req: AppRequest, res: Response) {
     sessionErrors,
     errors: {
       caseSearchForm: {
-        stringFieldRequired: 'Please enter at least one of the following fields: User ID, Case Type ID, Case ID or Jurisdiction ID.',
+        stringFieldRequired: 'Please enter at least one of the following fields: User ID, Case Type ID, Case Ref or Jurisdiction ID.',
         startDateBeforeEndDate: '\'Time from\' must be before \'Time to\'',
       },
       startTimestamp: {
