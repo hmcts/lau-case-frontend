@@ -12,7 +12,8 @@ const port: number = parseInt(process.env.PORT, 10) || 4000;
 if (app.locals.ENV === 'development') {
   const sslDirectory = path.join(__dirname, 'resources', 'localhost-ssl');
   const sslOptions: https.ServerOptions = {
-    secureProtocol: 'TLSv1_2_method',
+    minVersion: 'TLSv1.2',
+    ciphers: 'ECDHE-RSA-AES128-GCM-SHA256',
     cert: fs.readFileSync(path.join(sslDirectory, 'localhost.crt')),
     key: fs.readFileSync(path.join(sslDirectory, 'localhost.key')),
   };
