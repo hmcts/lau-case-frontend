@@ -17,7 +17,7 @@ if (app.locals.ENV === 'development') {
     cert: fs.readFileSync(path.join(sslDirectory, 'localhost.crt')),
     key: fs.readFileSync(path.join(sslDirectory, 'localhost.key')),
     ciphers: sslConfig.ciphers,
-    secureOptions: sslConfig.minimumTLSVersion
+    secureOptions: sslConfig.minimumTLSVersion,
   }, app);
   server.listen(port, () => {
     logger.info(`Application started: https://localhost:${port}`);
