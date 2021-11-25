@@ -31,13 +31,13 @@
     <p class="govuk-body">Total: {{ caseSearches.noOfRows }} records</p>
     <div>
       {% if (caseSearches.currentPage > 1) %}
-        <a id="case-searches-previous-btn" class="govuk-link" href="/case-searches/page/{{ caseSearches.currentPage | int - 1 }}">&lt; Previous</a>
+        <a id="case-searches-previous-btn" class="govuk-link pagination-link" href="/case-searches/page/{{ caseSearches.currentPage | int - 1 }}">&lt; Previous</a>
       {% else %}
         <span class="disabled-link">&lt; Previous</span>
       {% endif %}
 
       {% if caseSearches.moreRecords %}
-        <a id="case-searches-next-btn" class="govuk-link" href="/case-searches/page/{{ caseSearches.currentPage | int + 1 }}">Next &gt;</a>
+        <a id="case-searches-next-btn" class="govuk-link pagination-link" href="/case-searches/page/{{ caseSearches.currentPage | int + 1 }}">Next &gt;</a>
       {% else %}
         <span class="disabled-link">Next &gt;</span>
       {% endif %}
