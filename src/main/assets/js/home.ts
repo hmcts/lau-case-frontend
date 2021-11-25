@@ -1,5 +1,7 @@
 import { getById } from './selectors';
 
+const loadingOverlay = document.getElementsByClassName('loading-overlay')[0] as HTMLDivElement;
+
 const form = getById('case-search-form') as HTMLFormElement | null;
 if (form) {
   // On search button click, disable button and fields until search is complete.
@@ -12,8 +14,7 @@ if (form) {
 
       form.submit();
 
-      const fieldset = form.getElementsByClassName('govuk-fieldset')[0] as HTMLFieldSetElement;
-      fieldset.disabled = true;
+      loadingOverlay.style.display = 'flex';
     };
   }
 
@@ -54,7 +55,6 @@ if (form) {
   }
 
   // On pagination load, display grey overlay with loading spinner
-  const loadingOverlay = document.getElementsByClassName('loading-overlay')[0] as HTMLDivElement;
   const paginationLinks = document.getElementsByClassName('pagination-link') as HTMLCollectionOf<HTMLAnchorElement>;
   if (paginationLinks && paginationLinks.length > 0) {
     for (const link of Array.from(paginationLinks)) {
