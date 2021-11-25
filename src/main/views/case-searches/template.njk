@@ -3,10 +3,7 @@
 {% if caseSearches and caseSearches.hasData %}
   <div class="flex-space-between">
     <h2 class="govuk-heading-m">Case Searches Results</h2>
-    <a class="govuk-button" href="/case-searches/csv">
-      Download CSV
-      {#      <div class="spinner"></div> Generating CSV ...#}
-    </a>
+    <button id="searchesCsvBtn" class="govuk-button">Download CSV</button>
   </div>
 
   <div>

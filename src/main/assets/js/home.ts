@@ -17,16 +17,14 @@ if (form) {
     };
   }
 
-  // On download CSV button press, disable button and add loading spinner
-  const downloadCsvButton: HTMLButtonElement | null = getById('activityCsvBtn') as HTMLButtonElement;
-  if (downloadCsvButton) {
-    downloadCsvButton.onclick = function () {
-      downloadCsvButton.disabled = true;
+  const csvOnClick = function(btn: HTMLButtonElement, uri: string) {
+    return function() {
+      btn.disabled = true;
 
-      const innerHtml = downloadCsvButton.innerHTML;
-      downloadCsvButton.innerHTML = '<div class="spinner"></div> Generating CSV ...';
+      const innerHtml = btn.innerHTML;
+      btn.innerHTML = '<div class="spinner"></div> Generating CSV ...';
 
-      fetch('/case-activity/csv')
+      fetch(uri)
         .then(res => res.json())
         .then(json => {
           // Need to create link element to set the filename
@@ -38,15 +36,25 @@ if (form) {
 
           // Add a 1s timeout to account for the download dialog to display
           setTimeout(() => {
-            downloadCsvButton.innerHTML = innerHtml;
-            downloadCsvButton.disabled = false;
+            btn.innerHTML = innerHtml;
+            btn.disabled = false;
           }, 1000);
         });
     };
+  };
+
+  // On download CSV button press, disable button and add loading spinner
+  const activityCsvButton: HTMLButtonElement | null = getById('activityCsvBtn') as HTMLButtonElement;
+  const searchesCsvButton: HTMLButtonElement | null = getById('searchesCsvBtn') as HTMLButtonElement;
+  if (activityCsvButton) {
+    activityCsvButton.onclick = csvOnClick(activityCsvButton, '/case-activity/csv');
+  }
+  if (searchesCsvButton) {
+    searchesCsvButton.onclick = csvOnClick(searchesCsvButton, '/case-searches/csv');
   }
 
   // On pagination load, display grey overlay with loading spinner
-  const loadingOverlay = getById('loading-overlay') as HTMLDivElement;
+  const loadingOverlay = document.getElementsByClassName('loading-overlay')[0] as HTMLDivElement;
   const paginationLinks = document.getElementsByClassName('pagination-link') as HTMLCollectionOf<HTMLAnchorElement>;
   if (paginationLinks && paginationLinks.length > 0) {
     for (const link of Array.from(paginationLinks)) {
