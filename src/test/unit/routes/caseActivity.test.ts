@@ -15,8 +15,8 @@ describe('Case Activity Route', () => {
       );
 
     const res = await request(app).get('/case-activity/csv');
-    expect(res.header['content-type']).toBe('text/csv; charset=utf-8');
+    expect(res.header['content-type']).toBe('application/json; charset=utf-8');
     expect(res.statusCode).toBe(200);
-    expect(res.type).toBe('text/csv');
+    expect(res.type).toBe('application/json');
   });
 });

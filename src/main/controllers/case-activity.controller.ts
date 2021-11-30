@@ -58,9 +58,7 @@ export class CaseActivityController {
       const caseActivityLogs = new CaseActivityLogs(caseActivities.actionLog);
       const filename = `caseActivity ${csvDate()}.csv`;
       jsonToCsv(caseActivityLogs).then(csv => {
-        res.setHeader('Content-disposition', `attachment; filename=${filename}`);
-        res.set('Content-Type', 'text/csv');
-        res.status(200).send(csv);
+        res.status(200).json({filename, csv});
       });
     });
   }
