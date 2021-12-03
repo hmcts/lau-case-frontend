@@ -15,6 +15,10 @@
 {% endset %}
 
 {% block bodyStart %}
+  <div class="loading-overlay">
+    <div class='spinner'></div>
+  </div>
+
   <div class="global-cookie-message" id="cm-cookie-banner">
     {{ govukCookieBanner({
       ariaLabel: "Cookies on Log and Audit",

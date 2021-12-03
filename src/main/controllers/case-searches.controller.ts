@@ -58,9 +58,7 @@ export class CaseSearchesController {
       const caseSearchLogs = new CaseSearchLogs(caseSearches.searchLog);
       const filename = `caseSearches ${csvDate()}.csv`;
       jsonToCsv(caseSearchLogs).then(csv => {
-        res.setHeader('Content-disposition', `attachment; filename=${filename}`);
-        res.set('Content-Type', 'text/csv');
-        res.status(200).send(csv);
+        res.status(200).json({filename, csv});
       });
     });
   }
