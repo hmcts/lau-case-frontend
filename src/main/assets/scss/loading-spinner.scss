@@ -11,7 +11,7 @@ $color-black: #000;
   position: relative;
   width: 30px;
 
-  ::before {
+  &::before {
     animation: spinner .6s linear infinite;
     border: 2px solid $color-shade-white;
     border-radius: 50%;

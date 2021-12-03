@@ -3,10 +3,7 @@
 {% if caseActivities and caseActivities.hasData %}
   <div class="flex-space-between">
     <h2 class="govuk-heading-m">Case Activity Results</h2>
-    <a class="govuk-button" href="/case-activity/csv">
-      Download CSV
-{#      <div class="spinner"></div> Generating CSV ...#}
-    </a>
+    <button id="activityCsvBtn" class="govuk-button">Download CSV</button>
   </div>
 
   <div>
@@ -40,13 +37,13 @@
     <p class="govuk-body">Total: {{ caseActivities.noOfRows }} records</p>
     <div>
       {% if (caseActivities.currentPage > 1) %}
-        <a id="case-activity-previous-btn" class="govuk-link" href="/case-activity/page/{{ caseActivities.currentPage | int - 1 }}">&lt; Previous</a>
+        <a id="case-activity-previous-btn" class="govuk-link pagination-link" href="/case-activity/page/{{ caseActivities.currentPage | int - 1 }}">&lt; Previous</a>
       {% else %}
         <span class="disabled-link">&lt; Previous</span>
       {% endif %}
 
       {% if caseActivities.moreRecords %}
-        <a id="case-activity-next-btn" class="govuk-link" href="/case-activity/page/{{ caseActivities.currentPage | int + 1 }}">Next &gt;</a>
+        <a id="case-activity-next-btn" class="govuk-link pagination-link" href="/case-activity/page/{{ caseActivities.currentPage | int + 1 }}">Next &gt;</a>
       {% else %}
         <span class="disabled-link">Next &gt;</span>
       {% endif %}
