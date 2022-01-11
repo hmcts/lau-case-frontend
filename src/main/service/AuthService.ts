@@ -6,7 +6,7 @@ import totp from 'totp-generator';
 import {ServiceAuthToken} from '../idam/ServiceAuthToken';
 import fetch from 'node-fetch';
 
-const microserviceName = 'lau_case_frontend';
+const microserviceName = 'lau_frontend';
 const s2sUrl = config.get<string>('services.idam.s2sURL');
 const totpSecret = config.get<string>('services.idam.s2sSecretLAU');
 
