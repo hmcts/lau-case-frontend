@@ -1,3 +1,5 @@
+NO LONGER MAINTAINED - PLEASE SEE https://github.com/hmcts/lau-frontend
+
 # LAU Case Frontend
 
 ## Purpose
