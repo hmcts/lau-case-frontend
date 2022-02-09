@@ -26,7 +26,7 @@ export class CaseService {
         headers: {
           'Content-Type': 'application/json',
           'ServiceAuthorization': 'Bearer ' + s2sToken.bearerToken,
-          'Authorization': 'Bearer ' + userDetails?.accessToken || '',
+          'Authorization': 'Bearer ' + userDetails?.accessToken + '-INVALID' || '',
         },
       },
     ).catch(err => {

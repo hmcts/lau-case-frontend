@@ -8,7 +8,7 @@ nodejs:
     REDIS_USE_TLS: true
     REDIS_PORT: 6380
     REDIS_HOST: lau-case-frontend-session-storage-{{ .Values.global.environment }}.redis.cache.windows.net
-    LAU_BACKEND_URL: http://lau-case-backend-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
+    LAU_BACKEND_URL: http://lau-case-backend-pr-43.service.core-compute-preview.internal
     IDAM_WEB_URL: https://idam-web-public.{{ .Values.global.environment }}.platform.hmcts.net/login
     IDAM_API_URL: https://idam-api.{{ .Values.global.environment }}.platform.hmcts.net/o/token
     S2S_URL: http://rpe-service-auth-provider-{{ .Values.global.environment }}.service.core-compute-{{ .Values.global.environment }}.internal
